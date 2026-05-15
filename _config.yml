@@ -1,0 +1,7 @@
+title: AI Gov Brasil Blog
+description: Blog de IA, Governança e Alfabetização Digital
+baseurl: ""
+url: "https://aigovbrasil.github.io"
+theme: minima
+plugins:
+  - jekyll-feed
