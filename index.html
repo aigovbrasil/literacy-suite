@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Literacy &amp; Governance — Índice Proposto para Claude</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0A1628;--slate:#1E293B;--charcoal:#334155;--steel:#475569;--fog:#94A3B8;--cloud:#E2E8F0;--pearl:#F8FAFC;--white:#FFFFFF;--ap:#0F766E;--as:#CCFBF1;--am:#5EEAD4;--reg:#7C3AED;--regs:#EDE9FE;--une:#059669;--unes:#D1FAE5;--oecd:#1D4ED8;--oecds:#DBEAFE;--warn:#D97706;--warns:#FEF3C7;--crit:#DC2626;--crits:#FEE2E2;--succ:#16A34A;--succs:#DCFCE7;--serif:'Playfair Display',Georgia,serif;--sans:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono','Courier New',monospace;--sw:300px;--r:3px}
+*{margin:0;padding:0;box-sizing:border-box}html{font-size:15px;scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--pearl);color:var(--charcoal);display:flex;min-height:100vh;line-height:1.6}
+.sidebar{width:var(--sw);min-height:100vh;background:linear-gradient(180deg,var(--ink) 0%,var(--slate) 100%);position:fixed;left:0;top:0;bottom:0;z-index:100;display:flex;flex-direction:column;overflow-y:auto;transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:4px 0 24px rgba(0,0,0,.12)}
+.sidebar-header{padding:28px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-header h1{font-family:var(--serif);font-size:20px;font-weight:900;color:var(--white);letter-spacing:-.5px;line-height:1.2;margin-bottom:6px}
+.sidebar-header .sub{font-size:11px;color:var(--fog);margin-bottom:10px}
+.sidebar-header .tag{display:inline-block;padding:3px 8px;border-radius:var(--r);background:var(--ap);color:var(--white);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.search-box{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.search-box input{width:100%;padding:8px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);color:var(--white);font-size:12px;font-family:var(--sans);outline:none;transition:all .2s}
+.search-box input::placeholder{color:rgba(255,255,255,.3)}
+.search-box input:focus{border-color:var(--am);background:rgba(255,255,255,.1)}
+.nav-group{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.nav-group-label{padding:6px 16px;font-size:8px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:1.5px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;color:rgba(255,255,255,.6);font-size:12px;font-weight:500;transition:all .2s;border-left:3px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.04);color:rgba(255,255,255,.9)}
+.nav-item.active{background:rgba(94,234,212,.1);color:var(--white);border-left-color:var(--am);font-weight:600}
+.nav-item .num{font-family:var(--mono);font-size:10px;color:var(--am);min-width:24px;font-weight:600}
+.mob-btn{display:none;position:fixed;top:14px;left:14px;z-index:200;background:var(--ink);color:var(--white);border:none;border-radius:var(--r);width:44px;height:44px;font-size:20px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.overlay{display:none}
+.main{margin-left:var(--sw);flex:1;min-width:0}
+.topbar{background:var(--white);border-bottom:2px solid var(--cloud);padding:22px 36px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:50;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+.topbar .bar{width:4px;height:32px;background:linear-gradient(180deg,var(--ap),var(--am));border-radius:2px;flex-shrink:0}
+.topbar h2{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+.topbar .meta{margin-left:auto;font-size:10px;color:var(--steel);font-family:var(--mono)}
+.content{padding:36px 36px 80px;max-width:1320px}
+.section{display:none;animation:fi .35s ease}
+.section.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.sec-intro{margin-bottom:36px;padding-bottom:28px;border-bottom:2px solid var(--cloud)}
+.sec-label{font-size:10px;font-weight:700;color:var(--ap);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px;display:inline-block}
+.sec-title{font-family:var(--serif);font-size:34px;font-weight:900;color:var(--ink);letter-spacing:-.5px;margin-bottom:14px;line-height:1.2}
+.sec-desc{font-size:15px;color:var(--charcoal);line-height:1.7;max-width:780px}
+.subsec{margin-bottom:44px}
+.sub-title{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--slate);margin-bottom:14px;padding-bottom:10px;border-bottom:3px solid var(--as);display:flex;align-items:center;gap:10px}
+.tw{overflow-x:auto;margin-bottom:28px;border-radius:var(--r);border:1px solid var(--cloud);box-shadow:0 2px 6px rgba(0,0,0,.04)}
+table{width:100%;border-collapse:collapse;font-size:13px;background:var(--white)}
+thead th{background:var(--ink);color:var(--white);font-weight:700;font-size:10px;letter-spacing:.8px;text-transform:uppercase;padding:12px 14px;text-align:left;white-space:nowrap}
+tbody td{padding:10px 14px;border-bottom:1px solid var(--cloud);vertical-align:top;line-height:1.6}
+tbody tr:nth-child(even){background:var(--pearl)}
+tbody tr:hover{background:var(--as)}
+td.mono{font-family:var(--mono);font-size:12px}
+.badge{display:inline-block;padding:3px 9px;border-radius:var(--r);font-size:10px;font-weight:700;letter-spacing:.3px;white-space:nowrap}
+.br{background:var(--regs);color:var(--reg)}.bu{background:var(--unes);color:var(--une)}.bo{background:var(--oecds);color:var(--oecd)}.bw{background:var(--warns);color:var(--warn)}.bc{background:var(--crits);color:var(--crit)}.bs{background:var(--succs);color:var(--succ)}.bg{background:var(--cloud);color:var(--steel)}.bp{background:var(--as);color:var(--ap)}
+.score-row{display:grid;grid-template-columns:210px 70px 1fr 80px;gap:14px;align-items:center;padding:12px 18px;background:var(--white);border:1px solid var(--cloud);border-radius:var(--r);margin-bottom:10px;transition:all .2s}
+.score-row:hover{border-color:var(--ap);box-shadow:0 2px 8px rgba(15,118,110,.1)}
+.score-row .dim{font-weight:600;color:var(--slate);font-size:13px}
+.score-row .wgt{font-family:var(--mono);font-size:11px;color:var(--steel);text-align:center}
+.score-row .bc2{height:10px;background:var(--cloud);border-radius:5px;overflow:hidden}
+.score-row .bf{height:100%;background:linear-gradient(90deg,var(--ap),var(--am));border-radius:5px}
+.score-row .sc{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--ap);text-align:center}
+.total{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;background:linear-gradient(135deg,var(--ap),var(--ink));color:var(--white);border-radius:var(--r);margin-top:20px;box-shadow:0 4px 16px rgba(15,118,110,.2)}
+.total .lbl{font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.total .val{font-family:var(--mono);font-size:40px;font-weight:700}
+.total .faixa{font-size:16px;font-weight:700;padding:7px 14px;background:rgba(255,255,255,.2);border-radius:var(--r)}
+.card{background:var(--white);border:1px solid var(--cloud);border-radius:var(--r);margin-bottom:14px;overflow:hidden;transition:all .2s}
+.card:hover{border-color:var(--ap);box-shadow:0 3px 10px rgba(0,0,0,.06)}
+.card-hd{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;transition:background .15s}
+.card-hd:hover{background:var(--pearl)}
+.card-hd .arr{font-size:11px;color:var(--fog);transition:transform .2s;flex-shrink:0}
+.card-hd.open .arr{transform:rotate(90deg)}
+.card-hd .ttl{font-size:14px;font-weight:600;color:var(--slate);flex:1}
+.card-hd .tr{display:flex;gap:5px;flex-shrink:0}
+.card-bd{padding:0 18px 18px;display:none}
+.card-bd.open{display:block}
+.card-bd .fl{margin-bottom:12px}
+.card-bd .fl-lbl{font-size:9px;font-weight:700;color:var(--ap);letter-spacing:.8px;text-transform:uppercase;margin-bottom:5px}
+.card-bd .fl-val{font-size:13px;line-height:1.7;color:var(--charcoal)}
+.callout{padding:18px 22px;border-left:4px solid;border-radius:var(--r);margin-bottom:22px;font-size:13px;line-height:1.7}
+.cp{background:var(--as);border-color:var(--ap);color:var(--ink)}
+.creg{background:var(--regs);border-color:var(--reg);color:var(--slate)}
+.cw{background:var(--warns);border-color:var(--warn);color:var(--slate)}
+.cc{background:var(--crits);border-color:var(--crit);color:var(--slate)}
+.callout strong{font-weight:700;color:var(--ink)}
+.checklist{background:var(--white);border:1px solid var(--cloud);border-radius:var(--r);padding:22px;margin-bottom:22px}
+.ck-prog{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:18px;border-bottom:2px solid var(--cloud)}
+.ck-prog .bar{flex:1;height:10px;background:var(--cloud);border-radius:5px;overflow:hidden}
+.ck-prog .fill{height:100%;background:linear-gradient(90deg,var(--ap),var(--am));transition:width .4s cubic-bezier(.4,0,.2,1)}
+.ck-prog .pct{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--ap);min-width:52px;text-align:right}
+.ck-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--cloud)}
+.ck-item:last-child{border-bottom:none}
+.ck-item input[type=checkbox]{width:18px;height:18px;margin-top:3px;accent-color:var(--ap);cursor:pointer;flex-shrink:0}
+.ck-item label{font-size:13px;color:var(--charcoal);cursor:pointer;line-height:1.6;flex:1}
+.ck-item.done label{text-decoration:line-through;color:var(--fog)}
+.ck-item .dl{font-family:var(--mono);font-size:10px;color:var(--steel);padding:2px 7px;background:var(--pearl);border-radius:var(--r);white-space:nowrap}
+.timeline{position:relative;padding-left:36px;margin:28px 0}
+.timeline::before{content:'';position:absolute;left:13px;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--ap),var(--cloud))}
+.tl-item{position:relative;margin-bottom:28px}
+.tl-item::before{content:'';position:absolute;left:-28px;top:5px;width:14px;height:14px;background:var(--ap);border:3px solid var(--white);border-radius:50%;box-shadow:0 0 0 3px var(--as)}
+.tl-date{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ap);margin-bottom:5px}
+.tl-title{font-size:15px;font-weight:700;color:var(--slate);margin-bottom:5px}
+.tl-desc{font-size:13px;color:var(--charcoal);line-height:1.6}
+.quote{border-left:4px solid var(--ap);padding:18px 22px;margin:28px 0;background:var(--pearl);font-style:italic;font-size:14px;line-height:1.8;color:var(--slate)}
+.quote cite{display:block;margin-top:10px;font-style:normal;font-size:11px;color:var(--steel);font-weight:600}
+.ref-list{list-style:none;counter-reset:rc}
+.ref-list li{counter-increment:rc;padding:10px 0 10px 36px;border-bottom:1px solid var(--cloud);position:relative;font-size:13px;line-height:1.6}
+.ref-list li::before{content:counter(rc);position:absolute;left:0;top:10px;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--ap);background:var(--as);width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.ref-list a{color:var(--ap);text-decoration:none;font-weight:600;border-bottom:1px solid transparent;transition:border-color .2s}
+.ref-list a:hover{border-bottom-color:var(--ap)}
+@media(max-width:1100px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.mob-btn{display:flex;align-items:center;justify-content:center}.overlay.active{display:block;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:90}.main{margin-left:0}.content{padding:20px 16px}.topbar{padding:18px 16px 18px 64px}.score-row{grid-template-columns:1fr;gap:8px}}
+@media(max-width:768px){html{font-size:14px}.sec-title{font-size:26px}.sub-title{font-size:17px}}
+</style>
+</head>
+<body>
+<button class="mob-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+<div class="overlay" onclick="toggleSidebar()"></div>
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h1>AI Literacy &amp;<br>Governance</h1>
+    <div class="sub">Índice Proposto para Claude</div>
+    <span class="tag">v1.0 — Maio 2026</span>
+  </div>
+  <div class="search-box">
+    <input type="text" placeholder="Buscar seção..." oninput="filterNav(this.value)" aria-label="Buscar">
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">Fundamentos</div>
+    <div class="nav-item active" data-section="s1" onclick="goTo('s1')"><span class="num">01</span> Sumário Executivo</div>
+    <div class="nav-item" data-section="s2" onclick="goTo('s2')"><span class="num">02</span> AI Act &amp; Base Regulatória</div>
+    <div class="nav-item" data-section="s3" onclick="goTo('s3')"><span class="num">03</span> Frameworks Educacionais</div>
+    <div class="nav-item" data-section="s4" onclick="goTo('s4')"><span class="num">04</span> Estado da Mensuração</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">Índice Proposto</div>
+    <div class="nav-item" data-section="s5" onclick="goTo('s5')"><span class="num">05</span> Metodologia do Índice</div>
+    <div class="nav-item" data-section="s6" onclick="goTo('s6')"><span class="num">06</span> Aplicação ao Claude</div>
+    <div class="nav-item" data-section="s7" onclick="goTo('s7')"><span class="num">07</span> Tabela Comparativa</div>
+    <div class="nav-item" data-section="s8" onclick="goTo('s8')"><span class="num">08</span> Limitações &amp; Questões</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">Aplicações Práticas</div>
+    <div class="nav-item" data-section="s9" onclick="goTo('s9')"><span class="num">09</span> Recomendações por Público</div>
+    <div class="nav-item" data-section="s10" onclick="goTo('s10')"><span class="num">10</span> Checklist de Conformidade</div>
+    <div class="nav-item" data-section="s11" onclick="goTo('s11')"><span class="num">11</span> Toolkit de Avaliação</div>
+    <div class="nav-item" data-section="s12" onclick="goTo('s12')"><span class="num">12</span> Roadmap de Implementação</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">Recursos</div>
+    <div class="nav-item" data-section="s13" onclick="goTo('s13')"><span class="num">13</span> Referências &amp; Documentação</div>
+  </div>
+</nav>
+<main class="main">
+  <div class="topbar">
+    <div class="bar"></div>
+    <h2 id="page-title">Sumário Executivo</h2>
+    <div class="meta">Maio 2026</div>
+  </div>
+  <div class="content">
+
+<!-- S1: SUMÁRIO EXECUTIVO -->
+<section class="section active" id="s1">
+  <div class="sec-intro">
+    <span class="sec-label">Fundamentos</span>
+    <h3 class="sec-title">Sumário Executivo</h3>
+    <p class="sec-desc">A noção de AI literacy nas fontes mais normativas não é "saber programar IA", mas possuir competências, conhecimentos e compreensão suficientes para usar, supervisionar e interpretar sistemas de IA de modo informado, consciente de oportunidades, riscos e possíveis danos.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🎯</span> Definição Legal</h4>
+    <div class="callout creg"><strong>AI Act (Artigo 4):</strong> Define "literacia no domínio da IA" como competências, conhecimentos e compreensão que permitam implantação informada e consciência sobre oportunidades, riscos e possíveis danos. Obriga prestadores e deployers a adotarem medidas proporcionais ao contexto, ao risco, ao perfil das pessoas envolvidas e aos grupos afetados.</div>
+    <p style="margin-bottom:18px"><strong>Vigência:</strong> Disposições gerais aplicam-se desde 2 de fevereiro de 2025; supervisão por autoridades nacionais começa em agosto de 2026.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🌍</span> Convergência com Marcos Educacionais</h4>
+    <div class="tw"><table><thead><tr><th>Organização</th><th>Foco</th><th>Dimensões Centrais</th></tr></thead><tbody>
+    <tr><td><span class="badge bu">UNESCO</span></td><td>Estudantes &amp; Professores</td><td>12-15 competências em 4-5 dimensões; progressão por níveis</td></tr>
+    <tr><td><span class="badge bo">OECD</span></td><td>Educação &amp; Trabalho</td><td>Engajamento crítico; letramento geral, não especialização</td></tr>
+    <tr><td><span class="badge br">AI Act</span></td><td>Conformidade Regulatória</td><td>Compreensão conceitual, uso prático, avaliação crítica, ética/governança</td></tr>
+    </tbody></table></div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>📊</span> Maturidade da Mensuração</h4>
+    <div class="callout cw"><strong>Aviso Metodológico:</strong> A revisão sistemática identificou 16 escalas validadas em 22 estudos, majoritariamente de autorrelato; apenas 3 eram baseadas em desempenho, e praticamente nenhuma tinha validade transcultural testada. Um estudo de 2026 mostrou baixa correlação entre medidas autorrelatadas e objetivas.</div>
+    <p style="margin-bottom:14px"><strong>Implicação:</strong> Qualquer índice sério para LLMs deve ser multimétodo: checklist documental, testes comportamentais, medidas de calibração, evidências públicas de segurança e governança.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🏆</span> Resultado do Índice Proposto</h4>
+    <div class="total">
+      <div><div class="lbl">Claude (Família 4.x)</div><div style="font-size:11px;opacity:.8;margin-top:3px">Aplicação hipotética do AI Literacy Index</div></div>
+      <div class="val">81<span style="font-size:22px;opacity:.7">/100</span></div>
+      <div class="faixa">ALTA</div>
+    </div>
+    <p style="margin-top:20px;font-size:13px;color:var(--steel)"><strong>Interpretação:</strong> Documentação e governança públicas acima da média, boa infraestrutura para supervisão e uso crítico, mas com lacunas importantes em calibração pública padronizada, fidelidade de citações e comparabilidade externa entre benchmarks.</p>
+  </div>
+</section>
+
+<!-- S2: AI ACT -->
+<section class="section" id="s2">
+  <div class="sec-intro">
+    <span class="sec-label">Fundamentos</span>
+    <h3 class="sec-title">AI Act &amp; Base Regulatória</h3>
+    <p class="sec-desc">O AI Act estabelece obrigações legais específicas para literacia em IA, com definições precisas e cronograma de implementação já iniciado.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>⚖️</span> Definição Legal (Artigo 4)</h4>
+    <div class="quote">"Literacia no domínio da IA" = competências, conhecimentos e compreensão que permitam implantação informada e consciência sobre oportunidades, riscos e possíveis danos.<cite>— AI Act, Artigo 4 (versão em português)</cite></div>
+    <div class="callout creg"><strong>Obrigação:</strong> Prestadores e deployers devem adotar medidas <em>"na medida do possível"</em> para garantir nível suficiente de literacia, considerando: conhecimento técnico, experiência, formação, contexto de uso e pessoas afetadas.</div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>📅</span> Cronograma de Aplicação</h4>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-date">02 FEV 2025</div><div class="tl-title">Disposições Gerais Entram em Vigor</div><div class="tl-desc">Artigo 4 (literacia em IA) passa a ser obrigatório para prestadores e deployers</div></div>
+      <div class="tl-item"><div class="tl-date">AGO 2026</div><div class="tl-title">Início da Supervisão Nacional</div><div class="tl-desc">Autoridades nacionais começam fiscalização e aplicação de sanções</div></div>
+      <div class="tl-item"><div class="tl-date">ATUAL</div><div class="tl-title">Período de Adaptação</div><div class="tl-desc">Organizações devem implementar programas e manter registros internos</div></div>
+    </div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>📋</span> FAQ Oficial da Comissão Europeia</h4>
+    <div class="card"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">O que a Comissão espera no mínimo?</span></div>
+    <div class="card-bd"><div class="fl"><div class="fl-lbl">Conteúdo Mínimo</div><div class="fl-val"><ul style="list-style:disc;padding-left:18px;margin-top:6px"><li>Compreensão geral do que é IA e como funciona</li><li>Clareza sobre papel da organização (prestadora ou usuária)</li><li>Avaliação do risco do sistema</li><li>Adaptação ao contexto, setor, propósito e perfil das equipes</li></ul></div></div>
+    <div class="fl"><div class="fl-lbl">Certificação</div><div class="fl-val"><span class="badge bs">NÃO OBRIGATÓRIA</span> — Recomenda-se manter registros internos de treinamentos e orientações</div></div></div></div>
+    <div class="card"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Há uma rubrica única oficial?</span></div>
+    <div class="card-bd"><div class="fl-val"><strong>Não.</strong> A Comissão deliberadamente evita currículo rígido. A abordagem deve ser contextual, baseada em risco, papel organizacional e perfil das pessoas envolvidas.</div></div></div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🔍</span> Objetivos da Literacia</h4>
+    <div class="tw"><table><thead><tr><th>Objetivo</th><th>Descrição</th></tr></thead><tbody>
+    <tr><td><strong>Decisões informadas</strong></td><td>Permitir que usuários tomem decisões baseadas em compreensão real do sistema</td></tr>
+    <tr><td><strong>Interpretação adequada</strong></td><td>Capacidade de interpretar corretamente outputs e limitações</td></tr>
+    <tr><td><strong>Cumprimento regulatório</strong></td><td>Garantir conformidade com obrigações legais</td></tr>
+    <tr><td><strong>Melhoria de condições</strong></td><td>Usar IA para melhorar condições de trabalho e bem-estar</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<!-- S3: FRAMEWORKS EDUCACIONAIS -->
+<section class="section" id="s3">
+  <div class="sec-intro">
+    <span class="sec-label">Fundamentos</span>
+    <h3 class="sec-title">Frameworks Educacionais</h3>
+    <p class="sec-desc">UNESCO e OECD desenvolveram marcos de competências estruturados para estudantes, professores e força de trabalho.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🎓</span> UNESCO — Estudantes</h4>
+    <div class="callout cp"><strong>Objetivo:</strong> Preparar estudantes para uso seguro e significativo e para cocriar IA de forma responsável.</div>
+    <div class="tw"><table><thead><tr><th>Dimensão</th><th>Competências</th><th>Níveis</th></tr></thead><tbody>
+    <tr><td><span class="badge bu">Mentalidade</span></td><td>Pensamento centrado no ser humano, valores éticos</td><td rowspan="4" style="vertical-align:middle"><div style="display:flex;flex-direction:column;gap:5px"><span class="badge bg">Compreender</span><span class="badge bg">Aplicar</span><span class="badge bg">Criar</span></div></td></tr>
+    <tr><td><span class="badge bu">Ética da IA</span></td><td>Responsabilidade, privacidade, vieses, impactos sociais</td></tr>
+    <tr><td><span class="badge bu">Técnicas de IA</span></td><td>Conceitos fundamentais, algoritmos, dados</td></tr>
+    <tr><td><span class="badge bu">Design de Sistemas</span></td><td>Criação, teste, iteração de sistemas de IA</td></tr>
+    </tbody></table></div>
+    <p style="font-size:12px;color:var(--steel)"><strong>Total:</strong> 12 competências organizadas em progressão curricular com objetivos de aprendizagem por dimensão e nível.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>👩‍🏫</span> UNESCO — Professores</h4>
+    <div class="callout cp"><strong>Objetivo:</strong> Definir conhecimentos, habilidades e valores que docentes devem dominar na era da IA.</div>
+    <div class="tw"><table><thead><tr><th>Dimensão</th><th>Foco</th><th>Níveis</th></tr></thead><tbody>
+    <tr><td><span class="badge bu">Mentalidade</span></td><td>Centrada no ser humano, ética</td><td rowspan="5" style="vertical-align:middle"><div style="display:flex;flex-direction:column;gap:5px"><span class="badge bg">Adquirir</span><span class="badge bg">Aprofundar</span><span class="badge bg">Criar</span></div></td></tr>
+    <tr><td><span class="badge bu">Ética</span></td><td>Responsabilidade, privacidade, vieses</td></tr>
+    <tr><td><span class="badge bu">Fundamentos</span></td><td>Conceitos e aplicações de IA</td></tr>
+    <tr><td><span class="badge bu">Pedagogia</span></td><td>Ensinar sobre e com IA</td></tr>
+    <tr><td><span class="badge bu">Desenvolvimento</span></td><td>IA para formação profissional contínua</td></tr>
+    </tbody></table></div>
+    <p style="font-size:12px;color:var(--steel)"><strong>Total:</strong> 15 competências em 5 dimensões.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>💼</span> OECD — Educação &amp; Trabalho</h4>
+    <div class="callout cp"><strong>Foco:</strong> AI literacy como engajamento proativo e crítico; para o trabalho, a maior parte dos trabalhadores precisa de letramento geral, não especialização.</div>
+    <div class="card"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Dimensões para Educação</span><div class="tr"><span class="badge bo">PISA 2029</span></div></div>
+    <div class="card-bd"><div class="fl"><div class="fl-lbl">Avaliação MAIL</div><div class="fl-val">Mathematical AI Literacy — avaliação ampla para estudantes com foco em participação crítica em ambientes mediados por IA</div></div></div></div>
+    <div class="card"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Dimensões para Trabalho</span><div class="tr"><span class="badge bo">Workforce</span></div></div>
+    <div class="card-bd"><div class="fl-val"><ul style="list-style:disc;padding-left:18px"><li><strong>Compreensão geral:</strong> O que é IA e como funciona</li><li><strong>Ética:</strong> Implicações sociais, vieses, privacidade</li><li><strong>Riscos:</strong> Identificação e mitigação</li><li><strong>Avaliação crítica:</strong> Quando confiar, quando contestar</li></ul></div></div></div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🔬</span> Bases Acadêmicas</h4>
+    <div class="tw"><table><thead><tr><th>Autores</th><th>Contribuição</th><th>Ano</th></tr></thead><tbody>
+    <tr><td>Long &amp; Magerko</td><td>Paper fundacional organizando competências nucleares para interação e avaliação crítica de IA</td><td>2020</td></tr>
+    <tr><td>Chiu et al.</td><td>Diferencia <em>literacy</em> (saber/conhecer) de <em>competency</em> (aplicar com confiança); framework K-12 com 5 componentes</td><td>2024</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<!-- S4: MENSURAÇÃO -->
+<section class="section" id="s4">
+  <div class="sec-intro">
+    <span class="sec-label">Fundamentos</span>
+    <h3 class="sec-title">Estado da Arte de Mensuração</h3>
+    <p class="sec-desc">A mensuração de AI literacy ainda é imatura, com predomínio de escalas de autorrelato e baixa validade transcultural.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>📐</span> Revisão Sistemática de Escalas</h4>
+    <div class="callout cw"><strong>Achados Principais:</strong> Identificadas 16 escalas validadas em 22 estudos; apenas 3 baseadas em desempenho, 13 de autorrelato; praticamente nenhuma com validade transcultural testada.</div>
+    <div class="tw"><table><thead><tr><th>Critério de Qualidade</th><th>Evidência</th><th>Status</th></tr></thead><tbody>
+    <tr><td>Validade estrutural</td><td>Boa em várias escalas</td><td><span class="badge bs">Adequado</span></td></tr>
+    <tr><td>Consistência interna</td><td>Boa em várias escalas</td><td><span class="badge bs">Adequado</span></td></tr>
+    <tr><td>Validade de conteúdo</td><td>Baixa evidência</td><td><span class="badge bw">Limitado</span></td></tr>
+    <tr><td>Confiabilidade</td><td>Baixa evidência</td><td><span class="badge bw">Limitado</span></td></tr>
+    <tr><td>Responsividade</td><td>Baixa evidência</td><td><span class="badge bw">Limitado</span></td></tr>
+    <tr><td>Validade transcultural</td><td>Praticamente ausente</td><td><span class="badge bc">Insuficiente</span></td></tr>
+    </tbody></table></div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>⚠️</span> Problema do Autorrelato</h4>
+    <div class="callout cc"><strong>Estudo de 2026 (Zhang et al.):</strong> Baixa correlação entre medidas autorrelatadas (SR) e medidas objetivas baseadas em desempenho (OB). Professores frequentemente superestimam suas capacidades.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:20px">
+      <div class="card"><div class="card-hd"><span class="ttl">✓ Checklist Documental</span></div></div>
+      <div class="card"><div class="card-hd"><span class="ttl">✓ Testes Comportamentais</span></div></div>
+      <div class="card"><div class="card-hd"><span class="ttl">✓ Medidas de Calibração</span></div></div>
+      <div class="card"><div class="card-hd"><span class="ttl">✓ Evidências Públicas</span></div></div>
+    </div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🧪</span> Instrumentos Validados</h4>
+    <div class="tw"><table><thead><tr><th>Instrumento</th><th>Tipo</th><th>Dimensões</th><th>Público</th></tr></thead><tbody>
+    <tr><td><strong>AILQ</strong><br><span style="font-size:11px;color:var(--steel)">AI Literacy Questionnaire</span></td><td><span class="badge bg">Autorrelato</span></td><td>Afetiva, Comportamental, Cognitiva, Ética (ABCE) — 32 itens</td><td>Estudantes</td></tr>
+    <tr><td><strong>MAILS</strong><br><span style="font-size:11px;color:var(--steel)">Meta AI Literacy Scale</span></td><td><span class="badge bg">Autorrelato</span></td><td>Use &amp; apply, Understand, Detect, Ethics + autoeficácia e autorregulação</td><td>Adultos</td></tr>
+    <tr><td><strong>GLAT</strong><br><span style="font-size:11px;color:var(--steel)">Generative AI Literacy Assessment Test</span></td><td><span class="badge bs">Desempenho</span></td><td>Conhecimento e julgamento aplicados em GenAI — 20 itens</td><td>Ensino Superior</td></tr>
+    <tr><td><strong>Zhang et al. 2026</strong></td><td><span class="badge bs">SR + OB</span></td><td>Concept, Use, Evaluate, Ethics — alinhados SR e OB</td><td>Professores</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<!-- S5: METODOLOGIA DO ÍNDICE -->
+<section class="section" id="s5">
+  <div class="sec-intro">
+    <span class="sec-label">Índice Proposto</span>
+    <h3 class="sec-title">Metodologia do AI Literacy Index</h3>
+    <p class="sec-desc">Índice propositivo para avaliar suporte à literacia humana oferecido por um LLM e seu ecossistema — não "alfabetização" do modelo como se fosse um sujeito humano.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🎯</span> Princípio Metodológico Central</h4>
+    <div class="callout cp"><strong>Foco:</strong> Benchmarks de capacidade entram apenas como proxy parcial. AI literacy trata sobretudo de compreensão, uso crítico, ética, contexto e supervisão. Um modelo "muito inteligente" pode ter nota mediana se for pouco transparente, mal calibrado ou difícil de auditar.</div>
+    <p style="margin-bottom:14px"><strong>Coerente com:</strong> AI Index 2026, que destaca avanço rápido em capacidades técnicas, mas atraso na divulgação sistemática de benchmarks de IA responsável.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>📊</span> Seis Dimensões do Índice</h4>
+    <div class="score-row"><div class="dim">1. Transparência &amp; Documentação Pública</div><div class="wgt">Peso: 20%</div><div class="bc2"><div class="bf" style="width:90%"></div></div><div class="sc">4.5/5</div></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Métricas: Model card, data de corte, dados de treino, versionamento, políticas de uso, limitações, metodologia de benchmarks</span></div><div class="card-bd"><div class="fl-val"><strong>Medição:</strong> Auditoria documental com checklist de evidências públicas</div></div></div>
+    
+    <div class="score-row"><div class="dim">2. Compreensibilidade &amp; Calibração</div><div class="wgt">Peso: 15%</div><div class="bc2"><div class="bf" style="width:70%"></div></div><div class="sc">3.5/5</div></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Métricas: Identificação como IA, explicitação de incerteza, aviso de desatualização, correção após contestação</span></div><div class="card-bd"><div class="fl-val"><strong>Medição:</strong> Bateria de prompts com rubrica; medir taxa de abstention correta e de excesso de confiança</div></div></div>
+    
+    <div class="score-row"><div class="dim">3. Suporte ao Uso Crítico &amp; Verificação</div><div class="wgt">Peso: 15%</div><div class="bc2"><div class="bf" style="width:76%"></div></div><div class="sc">3.8/5</div></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Métricas: Respostas ancoradas em fonte, fidelidade de citações, indicação de evidências faltantes, recomendação de checagem</span></div><div class="card-bd"><div class="fl-val"><strong>Medição:</strong> Tarefas com busca/RAG; avaliação de precisão de citação e juízo de suficiência de evidência</div></div></div>
+    
+    <div class="score-row"><div class="dim">4. Segurança, Ética &amp; Governança</div><div class="wgt">Peso: 20%</div><div class="bc2"><div class="bf" style="width:86%"></div></div><div class="sc">4.3/5</div></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Métricas: Resultados públicos de segurança, balanço recusa/sobrerrecusa, vieses, red teaming, políticas de incidentes</span></div><div class="card-bd"><div class="fl-val"><strong>Medição:</strong> Evidência pública + bateria independente de segurança</div></div></div>
+    
+    <div class="score-row"><div class="dim">5. Supervisão Humana &amp; Controlabilidade</div><div class="wgt">Peso: 15%</div><div class="bc2"><div class="bf" style="width:80%"></div></div><div class="sc">4.0/5</div></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Métricas: Modos com aprovação humana, logs/versionamento, controles administrativos, retenção de dados, separação app/API</span></div><div class="card-bd"><div class="fl-val"><strong>Medição:</strong> Auditoria de produto/API e simulações agentivas com checkpoints humanos</div></div></div>
+    
+    <div class="score-row"><div class="dim">6. Acessibilidade &amp; Utilidade Pedagógica</div><div class="wgt">Peso: 15%</div><div class="bc2"><div class="bf" style="width:82%"></div></div><div class="sc">4.1/5</div></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Métricas: Documentação multilíngue, exemplos, clareza de onboarding, suporte PDF/visão/ferramentas</span></div><div class="card-bd"><div class="fl-val"><strong>Medição:</strong> Avaliação heurística + testes de usabilidade com pesquisadores/docentes</div></div></div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🧮</span> Fórmula de Cálculo</h4>
+    <div class="callout cp"><code style="font-family:var(--mono);font-size:13px;display:block;padding:6px 0">AILI-LLM = Σ (peso × nota/5) × 100</code><p style="margin-top:10px;font-style:normal">Escala final: 0 a 100 pontos</p></div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>📏</span> Faixas de Interpretação</h4>
+    <div class="tw"><table><thead><tr><th>Faixa</th><th>Pontuação</th><th>Interpretação</th></tr></thead><tbody>
+    <tr><td><span class="badge bs">Muito Alta</span></td><td class="mono">85–100</td><td>Forte suporte à literacia, boa auditabilidade e maturidade regulatória</td></tr>
+    <tr><td><span class="badge bp">Alta</span></td><td class="mono">70–84</td><td>Robusto, mas com lacunas relevantes em uma ou duas dimensões</td></tr>
+    <tr><td><span class="badge bg">Moderada</span></td><td class="mono">55–69</td><td>Utilizável com supervisão reforçada e controles adicionais</td></tr>
+    <tr><td><span class="badge bw">Baixa</span></td><td class="mono">40–54</td><td>Inadequado para contextos sensíveis sem forte mitigação</td></tr>
+    <tr><td><span class="badge bc">Insuficiente</span></td><td class="mono">&lt; 40</td><td>Não recomendado para implantação ampla</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<!-- S6: APLICAÇÃO AO CLAUDE -->
+<section class="section" id="s6">
+  <div class="sec-intro">
+    <span class="sec-label">Índice Proposto</span>
+    <h3 class="sec-title">Aplicação ao Claude</h3>
+    <p class="sec-desc">Aplicação hipotética do AI Literacy Index à família Claude (Opus 4.7 / Sonnet 4.6), baseada em evidências públicas.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>📋</span> Versões Avaliadas</h4>
+    <div class="tw"><table><thead><tr><th>Modelo</th><th>Data de Corte</th><th>Contexto</th><th>Destaque</th></tr></thead><tbody>
+    <tr><td><strong>Opus 4.7</strong></td><td class="mono">Jan 2026</td><td>—</td><td>+13% sobre Opus 4.6 em benchmark interno de 93 tarefas de código</td></tr>
+    <tr><td><strong>Sonnet 4.6</strong></td><td>—</td><td class="mono">1M tokens (beta)</td><td>79,6% SWE-bench Verified; 75,9% SWE-bench Multilingual</td></tr>
+    <tr><td><strong>Opus 4.6</strong></td><td>—</td><td>—</td><td>91,31% GPQA Diamond</td></tr>
+    </tbody></table></div>
+    <p style="font-size:12px;color:var(--steel)"><strong>Contexto (AI Index 2026):</strong> Em março de 2026, melhor modelo da Anthropic liderava por apenas 2,7% sobre o topo chinês — fronteira técnica apertada.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🎯</span> Pontuação por Dimensão</h4>
+
+    <div class="score-row"><div class="dim">Transparência &amp; Documentação</div><div class="wgt">20%</div><div class="bc2"><div class="bf" style="width:90%"></div></div><div class="sc">4.5/5</div></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Evidências &amp; Justificativa</span><div class="tr"><span class="badge bs">Alta Observabilidade</span></div></div>
+    <div class="card-bd"><div class="fl"><div class="fl-lbl">Evidências Públicas</div><div class="fl-val">Transparency Hub, system cards, knowledge cutoff explícito, system prompts versionados, docs PT-BR, políticas de uso</div></div>
+    <div class="fl"><div class="fl-lbl">Justificativa</div><div class="fl-val">Acima da média em documentação pública, mas com dados de treino e metodologias comparativas apenas parcialmente especificados</div></div></div></div>
+
+    <div class="score-row"><div class="dim">Compreensibilidade &amp; Calibração</div><div class="wgt">15%</div><div class="bc2"><div class="bf" style="width:70%"></div></div><div class="sc">3.5/5</div></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Evidências &amp; Justificativa</span><div class="tr"><span class="badge bw">Observabilidade Parcial</span></div></div>
+    <div class="card-bd"><div class="fl"><div class="fl-lbl">Evidências Públicas</div><div class="fl-val">Identidade/model strings nas docs, cutoff explícito, autoavaliação pública de alinhamento "não ideal", sem bateria pública padronizada</div></div>
+    <div class="fl"><div class="fl-lbl">Justificativa</div><div class="fl-val">Faltam métricas públicas padronizadas de confiança, abstention e calibração factual</div></div></div></div>
+
+    <div class="score-row"><div class="dim">Uso Crítico &amp; Verificação</div><div class="wgt">15%</div><div class="bc2"><div class="bf" style="width:76%"></div></div><div class="sc">3.8/5</div></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Evidências &amp; Justificativa</span><div class="tr"><span class="badge bw">Observabilidade Parcial</span></div></div>
+    <div class="card-bd"><div class="fl"><div class="fl-lbl">Evidências Públicas</div><div class="fl-val">Tool use, busca, visão, PDFs, contagem de tokens; ecossistema apto a respostas com verificação instrumental</div></div>
+    <div class="fl"><div class="fl-lbl">Justificativa</div><div class="fl-val">Infraestrutura forte, mas sem série pública de fidelidade de citações em cenários multilíngues</div></div></div></div>
+
+    <div class="score-row"><div class="dim">Segurança, Ética &amp; Governança</div><div class="wgt">20%</div><div class="bc2"><div class="bf" style="width:86%"></div></div><div class="sc">4.3/5</div></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Evidências &amp; Justificativa</span><div class="tr"><span class="badge bs">Alta Observabilidade</span></div></div>
+    <div class="card-bd"><div class="fl"><div class="fl-lbl">Evidências Públicas</div><div class="fl-val">System cards, Transparency Hub, avaliações eleitorais, melhorias em misalignment, políticas públicas</div></div>
+    <div class="fl"><div class="fl-lbl">Justificativa</div><div class="fl-val">Muito forte em divulgação de segurança para padrões de mercado, ainda que dependente de testes do próprio fornecedor</div></div></div></div>
+
+    <div class="score-row"><div class="dim">Supervisão &amp; Controlabilidade</div><div class="wgt">15%</div><div class="bc2"><div class="bf" style="width:80%"></div></div><div class="sc">4.0/5</div></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Evidências &amp; Justificativa</span><div class="tr"><span class="badge bs">Alta Observabilidade</span></div></div>
+    <div class="card-bd"><div class="fl"><div class="fl-lbl">Evidências Públicas</div><div class="fl-val">Modos de esforço/pensamento, separação app/API, ZDR em alguns recursos, versionamento de prompts</div></div>
+    <div class="fl"><div class="fl-lbl">Justificativa</div><div class="fl-val">Bom suporte a human-in-the-loop; auditoria pública de logs/telemetria administrativa ainda limitada</div></div></div></div>
+
+    <div class="score-row"><div class="dim">Acessibilidade &amp; Pedagogia</div><div class="wgt">15%</div><div class="bc2"><div class="bf" style="width:82%"></div></div><div class="sc">4.1/5</div></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Evidências &amp; Justificativa</span><div class="tr"><span class="badge bs">Alta Observabilidade</span></div></div>
+    <div class="card-bd"><div class="fl"><div class="fl-lbl">Evidências Públicas</div><div class="fl-val">Documentação PT-BR, introdução clara, visão, PDFs, exemplos, multimodalidade, 1M de contexto no Sonnet 4.6</div></div>
+    <div class="fl"><div class="fl-lbl">Justificativa</div><div class="fl-val">Excelente acessibilidade documental, mas sem framework pedagógico público próprio comparável aos da UNESCO</div></div></div></div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🏆</span> Resultado Final</h4>
+    <div class="total">
+      <div><div class="lbl">AI Literacy Index — Claude</div><div style="font-size:12px;opacity:.85;margin-top:5px">Pontuação hipotética baseada em evidências públicas</div></div>
+      <div class="val">81.4<span style="font-size:24px;opacity:.7">/100</span></div>
+      <div class="faixa">ALTA</div>
+    </div>
+    <div class="callout cp" style="margin-top:22px"><strong>Interpretação:</strong> Forte o suficiente para pesquisa aplicada e muitos usos corporativos. Para contextos regulados ou de alto impacto, recomenda-se adicionar: teste externo de calibração, auditoria de fidelidade de citações e avaliação contextual por domínio/setor.</div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>⚠️</span> Limitações Públicas Conhecidas</h4>
+    <div class="tw"><table><thead><tr><th>Categoria</th><th>Limitação</th><th>Fonte</th></tr></thead><tbody>
+    <tr><td><span class="badge bw">Dados</span></td><td>Descrição de dados de treino é resumida e proprietária, sem detalhamento para auditoria externa fina</td><td>System cards</td></tr>
+    <tr><td><span class="badge bw">Alinhamento</span></td><td>"Largely well-aligned and trustworthy, though not fully ideal" — em alguns aspectos melhora, em outros fica modestamente pior</td><td>Anthropic</td></tr>
+    <tr><td><span class="badge bw">Comportamento</span></td><td>Behavioral quirks conhecidos, como verbosidade elevada em Opus 4.7</td><td>Docs públicas</td></tr>
+    <tr><td><span class="badge bw">Comparabilidade</span></td><td>Benchmarks usam adaptive thinking, ferramentas e harnesses próprios — comparabilidade limitada</td><td>AI Index 2026</td></tr>
+    <tr><td><span class="badge bc">IA Responsável</span></td><td>Relatório de benchmarks de IA responsável continua irregular em toda a indústria</td><td>AI Index 2026</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<!-- S7: TABELA COMPARATIVA -->
+<section class="section" id="s7">
+  <div class="sec-intro">
+    <span class="sec-label">Índice Proposto</span>
+    <h3 class="sec-title">Tabela de Síntese Comparativa</h3>
+    <p class="sec-desc">Comparação estruturada entre fontes primárias: AI Act, UNESCO, OECD e principais escalas validadas.</p>
+  </div>
+  <div class="subsec">
+    <div class="tw"><table><thead><tr><th>Fonte/Abordagem</th><th>Definição ou Foco</th><th>Dimensões/Métricas</th><th>Método de Avaliação</th><th>Exemplo de Uso</th></tr></thead><tbody>
+    <tr><td><span class="badge br">AI Act + FAQ CE</span></td><td>Literacia em IA = competências, conhecimentos e compreensão para uso/implantação informada, com consciência de oportunidades, riscos e danos</td><td>Conhecimento geral de IA; papel organizacional; risco; contexto setorial; aspectos legais e éticos; supervisão humana</td><td>Checklist contextual por função, risco e caso de uso; registro interno de ações formativas</td><td>Programa corporativo de conformidade com art. 4; não há rubrica única oficial</td></tr>
+    <tr><td><span class="badge bu">UNESCO Estudantes</span></td><td>Preparar estudantes para uso seguro e significativo e para cocriar IA de forma responsável</td><td>12 competências em 4 dimensões: mentalidade, ética da IA, técnicas, design de sistemas; 3 níveis: compreender, aplicar, criar</td><td>Progressão curricular e avaliação por níveis</td><td>Rubricas curriculares e objetivos de aprendizagem por dimensão e nível</td></tr>
+    <tr><td><span class="badge bu">UNESCO Professores</span></td><td>Definir conhecimentos, habilidades e valores que docentes devem dominar na era da IA</td><td>15 competências em 5 dimensões: mentalidade, ética, fundamentos, pedagogia, desenvolvimento profissional; níveis: adquirir, aprofundar, criar</td><td>Formação docente, marcos nacionais</td><td>Base para rubricas docentes e programas de formação</td></tr>
+    <tr><td><span class="badge bo">OECD Educação &amp; Trabalho</span></td><td>AI literacy como engajamento proativo e crítico; para trabalho, maioria precisa de letramento geral, não especialização</td><td>Criticidade, participação, uso seguro; no trabalho: compreensão geral, ética, riscos e avaliação crítica</td><td>Avaliações amplas (PISA 2029 MAIL)</td><td>MAIL (PISA 2029); programas de workforce literacy</td></tr>
+    <tr><td><span class="badge bg">Long &amp; Magerko 2020</span></td><td>Paper fundacional organizando competências nucleares para interagir e avaliar criticamente tecnologias de IA</td><td>Competências nucleares para compreensão e avaliação crítica de IA</td><td>Framework conceitual interdisciplinar</td><td>Base conceitual para currículos e instrumentos posteriores</td></tr>
+    <tr><td><span class="badge bg">Chiu et al. 2024</span></td><td>Diferencia literacy (saber/conhecer) de competency (aplicar com confiança e autorreflexão)</td><td>5 componentes: tecnologia, impacto, ética, colaboração, autorreflexão</td><td>Co-design iterativo com professores</td><td>Framework K-12; útil para rubricas e desenho de índice</td></tr>
+    <tr><td><span class="badge bg">Revisão Sistemática Escalas</span></td><td>Estado da arte da medição de AI literacy</td><td>Boa validade estrutural e consistência interna; baixa evidência de validade de conteúdo, confiabilidade, responsividade e validade transcultural</td><td>Revisão COSMIN/GRADE</td><td>Critério para seleção de instrumentos; evitar depender só de autorrelato</td></tr>
+    <tr><td><span class="badge bp">AILQ</span></td><td>Questionário validado para estudantes com abordagem ABCE</td><td>4 dimensões: afetiva, comportamental, cognitiva e ética; 32 itens</td><td>Autorrelato + validação por especialistas, entrevistas, piloto e CFA</td><td>Questionário para avaliar desenvolvimento de AI literacy em estudantes</td></tr>
+    <tr><td><span class="badge bp">MAILS</span></td><td>Escala modular de AI literacy com competências psicológicas associadas</td><td>Use &amp; apply AI, understand AI, detect AI, AI ethics; "create AI" separado; autoeficácia e autorregulação</td><td>Autorrelato; estrutura fatorial confirmada com adultos</td><td>Escala modular para população geral/adulta e contextos profissionais</td></tr>
+    <tr><td><span class="badge bs">GLAT</span></td><td>Primeiro teste validado baseado em desempenho para GenAI literacy</td><td>Conhecimento e julgamento em GenAI; 20 itens múltipla escolha</td><td>CTT + IRT; validade estrutural e preditiva; melhor predição de desempenho que autorrelato</td><td>Teste objetivo para ensino superior</td></tr>
+    <tr><td><span class="badge bs">Zhang et al. 2026</span></td><td>Instrumentos alinhados de autorrelato e base objetiva para professores</td><td>Framework: Concept, Use, Evaluate, Ethics</td><td>Medidas SR e OB no mesmo quadro; CFA + perfis latentes</td><td>Ferramenta diagnóstica; mostra desalinhamento entre percepção e desempenho</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<!-- S8: LIMITAÇÕES -->
+<section class="section" id="s8">
+  <div class="sec-intro">
+    <span class="sec-label">Índice Proposto</span>
+    <h3 class="sec-title">Limitações &amp; Questões Abertas</h3>
+    <p class="sec-desc">Reconhecimento explícito das limitações metodológicas e das questões que permanecem em aberto.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🚧</span> Ausência de Bateria Padronizada</h4>
+    <div class="callout cw"><strong>Lacuna:</strong> Não existe, nas fontes consultadas, uma bateria pública padronizada e multi-fornecedor para medir AI literacy support em LLMs. O índice proposto resolve isso apenas parcialmente, usando combinação de rubricas e proxies públicos.</div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🔒</span> Dependência de Evidências Internas</h4>
+    <div class="tw"><table><thead><tr><th>Tipo de Evidência</th><th>Limitação</th><th>Impacto</th></tr></thead><tbody>
+    <tr><td>Benchmarks</td><td>Harnesses próprios, metodologias parcialmente especificadas</td><td><span class="badge bw">Comparabilidade Limitada</span></td></tr>
+    <tr><td>System cards</td><td>Produzidos pela própria empresa</td><td><span class="badge bw">Auditoria Externa Limitada</span></td></tr>
+    <tr><td>Calibração factual</td><td>Sem visibilidade pública padronizada</td><td><span class="badge bc">Não Mensurável</span></td></tr>
+    <tr><td>Fidelidade de citação</td><td>Sem série pública comparável</td><td><span class="badge bc">Não Mensurável</span></td></tr>
+    <tr><td>Erro de medição</td><td>Não divulgado publicamente</td><td><span class="badge bw">Incerteza Alta</span></td></tr>
+    <tr><td>Desempenho multilíngue</td><td>Evidências parciais</td><td><span class="badge bw">Validade Transcultural Incerta</span></td></tr>
+    </tbody></table></div>
+    <div class="callout cp"><strong>Implicação:</strong> Isso não invalida a documentação pública da Anthropic, mas impõe prudência metodológica. A pontuação 81/100 deve ser tratada como hipótese informada por evidência pública, não como certificação.</div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>📜</span> Incerteza Regulatória Futura</h4>
+    <div class="callout creg"><strong>Proposta Posterior da Comissão:</strong> Registrou proposta para deslocar o eixo da obrigação do artigo 4, reforçando o papel de Estados-membros. Até eventual mudança legislativa seguem valendo a definição do AI Act, a obrigação desde fevereiro de 2025 e a supervisão nacional a partir de agosto de 2026.</div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>❓</span> Questões Metodológicas em Aberto</h4>
+    <div class="card"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">1. Validade Transcultural</span><div class="tr"><span class="badge bc">Crítico</span></div></div><div class="card-bd"><div class="fl-val">Nenhuma escala validada tem evidência robusta de validade transcultural. Instrumentos desenvolvidos em inglês podem não funcionar adequadamente em outros idiomas e contextos culturais.</div></div></div>
+    <div class="card"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">2. Calibração Pública Padronizada</span><div class="tr"><span class="badge bw">Importante</span></div></div><div class="card-bd"><div class="fl-val">Não há protocolo público padronizado para medir calibração de LLMs — quanto o modelo "sabe que não sabe". Isso é crítico para uso seguro em contextos de alto risco.</div></div></div>
+    <div class="card"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">3. Fidelidade de Citações</span><div class="tr"><span class="badge bw">Importante</span></div></div><div class="card-bd"><div class="fl-val">Não há benchmark público comparável para medir precisão e fidelidade de citações em respostas com busca/RAG, especialmente em cenários multilíngues.</div></div></div>
+    <div class="card"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">4. Comparabilidade entre Fornecedores</span><div class="tr"><span class="badge bw">Importante</span></div></div><div class="card-bd"><div class="fl-val">AI Index 2026 destaca que benchmarks de IA responsável continuam irregulares em toda indústria. Cada fornecedor usa harnesses, contextos e metodologias próprias, dificultando comparação direta.</div></div></div>
+  </div>
+</section>
+
+<!-- S9: RECOMENDAÇÕES -->
+<section class="section" id="s9">
+  <div class="sec-intro">
+    <span class="sec-label">Aplicações Práticas</span>
+    <h3 class="sec-title">Recomendações por Público</h3>
+    <p class="sec-desc">Orientações específicas para diferentes stakeholders no ecossistema de AI literacy.</p>
+  </div>
+  <div class="subsec">
+    <div class="tw"><table><thead><tr><th>Público</th><th>Recomendação Prática</th><th>Justificativa</th></tr></thead><tbody>
+    <tr><td><span class="badge bp">Pesquisadores</span></td><td>Não usar somente escalas de autorrelato. Combinar questionários, tarefas objetivas e auditoria documental do sistema.</td><td>A revisão sistemática mostrou predominância de autorrelato e lacunas de validade; estudo de 2026 mostrou desalinhamento entre percepção e desempenho.</td></tr>
+    <tr><td><span class="badge br">Formuladores de Políticas</span></td><td>Tratar AI literacy como obrigação contextual e baseada em risco, não como curso único "para todos".</td><td>A Comissão Europeia rejeita abordagem única e pede adaptação por papel, risco, setor, contexto e pessoas afetadas.</td></tr>
+    <tr><td><span class="badge bu">Autoridades Educacionais</span></td><td>Ancorar currículos em progressões explícitas e em dimensões human-centered, ethics, applications/design, com versões separadas para estudantes e professores.</td><td>Os marcos da UNESCO já oferecem progressão e granularidade curricular úteis, e a OECD está incorporando o tema a avaliações amplas.</td></tr>
+    <tr><td><span class="badge br">Reguladores &amp; Compradores Públicos</span></td><td>Exigir dos fornecedores métricas públicas de calibração, abstention, fidelidade de citações e documentação de limitações — não só benchmark de capacidade.</td><td>O AI Index 2026 mostra que a capacidade avança depressa, mas o reporte de IA responsável permanece insuficiente.</td></tr>
+    <tr><td><span class="badge bg">Empregadores &amp; Deployers</span></td><td>Manter trilha documental interna de treinamentos, guias e medidas de mitigação, mesmo sem exigência de certificado.</td><td>O FAQ oficial diz que certificado não é necessário, mas registros internos são apropriados para demonstrar diligência.</td></tr>
+    <tr><td><span class="badge bp">Comunidade de Benchmark</span></td><td>Separar "capacidade" de "suporte à literacia": um LLM pode ser muito bom em provas e ainda ser ruim em transparência, verificabilidade ou supervisão.</td><td>Essa distinção é consistente com o AI Act, com os marcos da UNESCO e com a literatura recente sobre competência versus literacy.</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<!-- S10: CHECKLIST -->
+<section class="section" id="s10">
+  <div class="sec-intro">
+    <span class="sec-label">Aplicações Práticas</span>
+    <h3 class="sec-title">Checklist de Conformidade AI Act Art. 4</h3>
+    <p class="sec-desc">Lista de verificação prática para organizações que precisam demonstrar conformidade com o Artigo 4 do AI Act.</p>
+  </div>
+  <div class="subsec">
+    <div class="checklist">
+      <div class="ck-prog">
+        <div class="bar"><div class="fill" style="width:0%" id="progress-fill"></div></div>
+        <div class="pct" id="progress-pct">0%</div>
+      </div>
+      <div class="ck-item"><input type="checkbox" id="c1" onchange="updateProgress()"><label for="c1"><strong>Compreensão Geral de IA:</strong> Equipe conhece fundamentos de IA, como funciona, tipos de sistemas (ML supervisionado/não supervisionado, GenAI, etc.)</label><span class="dl">Fev 2025</span></div>
+      <div class="ck-item"><input type="checkbox" id="c2" onchange="updateProgress()"><label for="c2"><strong>Clareza de Papel:</strong> Documentado se a organização é prestadora, deployer ou ambos; responsabilidades de cada papel</label><span class="dl">Fev 2025</span></div>
+      <div class="ck-item"><input type="checkbox" id="c3" onchange="updateProgress()"><label for="c3"><strong>Avaliação de Risco:</strong> Classificação do sistema de IA por nível de risco (alto, limitado, mínimo); documentação de justificativa</label><span class="dl">Fev 2025</span></div>
+      <div class="ck-item"><input type="checkbox" id="c4" onchange="updateProgress()"><label for="c4"><strong>Adaptação Contextual:</strong> Treinamento adaptado ao setor, propósito, contexto de uso específico da organização</label><span class="dl">Fev 2025</span></div>
+      <div class="ck-item"><input type="checkbox" id="c5" onchange="updateProgress()"><label for="c5"><strong>Perfil das Equipes:</strong> Considerado conhecimento técnico, experiência e formação; níveis diferenciados de literacia por área</label><span class="dl">Fev 2025</span></div>
+      <div class="ck-item"><input type="checkbox" id="c6" onchange="updateProgress()"><label for="c6"><strong>Grupos Afetados:</strong> Identificados grupos sobre os quais a IA incide; consideradas necessidades específicas de literacia</label><span class="dl">Fev 2025</span></div>
+      <div class="ck-item"><input type="checkbox" id="c7" onchange="updateProgress()"><label for="c7"><strong>Aspectos Éticos:</strong> Treinamento cobre vieses, privacidade, transparência, responsabilidade e impactos sociais</label><span class="dl">Fev 2025</span></div>
+      <div class="ck-item"><input type="checkbox" id="c8" onchange="updateProgress()"><label for="c8"><strong>Supervisão Humana:</strong> Equipe sabe quando, como e por que supervisionar outputs de IA; protocolos documentados</label><span class="dl">Fev 2025</span></div>
+      <div class="ck-item"><input type="checkbox" id="c9" onchange="updateProgress()"><label for="c9"><strong>Interpretação de Resultados:</strong> Capacidade de interpretar adequadamente outputs, limitações e níveis de confiança</label><span class="dl">Fev 2025</span></div>
+      <div class="ck-item"><input type="checkbox" id="c10" onchange="updateProgress()"><label for="c10"><strong>Cumprimento Regulatório:</strong> Conhecimento das obrigações legais aplicáveis (AI Act, GDPR, legislação setorial)</label><span class="dl">Fev 2025</span></div>
+      <div class="ck-item"><input type="checkbox" id="c11" onchange="updateProgress()"><label for="c11"><strong>Registros Internos:</strong> Mantidos registros de treinamentos, orientações, materiais utilizados, participantes</label><span class="dl">Fev 2025</span></div>
+      <div class="ck-item"><input type="checkbox" id="c12" onchange="updateProgress()"><label for="c12"><strong>Atualização Contínua:</strong> Processo estabelecido para atualização periódica conforme evolução de sistemas e regulação</label><span class="dl">Ago 2026</span></div>
+      <div class="ck-item"><input type="checkbox" id="c13" onchange="updateProgress()"><label for="c13"><strong>Preparação para Supervisão:</strong> Organização pronta para demonstrar conformidade a autoridades nacionais</label><span class="dl">Ago 2026</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- S11: TOOLKIT -->
+<section class="section" id="s11">
+  <div class="sec-intro">
+    <span class="sec-label">Aplicações Práticas</span>
+    <h3 class="sec-title">Toolkit de Avaliação</h3>
+    <p class="sec-desc">Conjunto de instrumentos disponíveis para medir AI literacy em diferentes contextos.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>📝</span> Instrumentos de Autorrelato (SR)</h4>
+    <div class="card"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">AILQ — AI Literacy Questionnaire</span><div class="tr"><span class="badge bu">Estudantes</span><span class="badge bg">32 itens</span></div></div>
+    <div class="card-bd">
+      <div class="fl"><div class="fl-lbl">Dimensões (ABCE)</div><div class="fl-val"><strong>Afetiva:</strong> Atitudes e emoções em relação à IA<br><strong>Comportamental:</strong> Uso prático e aplicação<br><strong>Cognitiva:</strong> Conhecimento e compreensão conceitual<br><strong>Ética:</strong> Consciência de implicações éticas e sociais</div></div>
+      <div class="fl"><div class="fl-lbl">Validação</div><div class="fl-val">Validação por especialistas, entrevistas, piloto e CFA (Confirmatory Factor Analysis)</div></div>
+      <div class="fl"><div class="fl-lbl">Limitações</div><div class="fl-val"><span class="badge bw">Autorrelato apenas</span> — pode haver desalinhamento entre percepção e desempenho real</div></div>
+    </div></div>
+    <div class="card"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">MAILS — Meta AI Literacy Scale</span><div class="tr"><span class="badge bg">Adultos / Geral</span><span class="badge bp">Modular</span></div></div>
+    <div class="card-bd">
+      <div class="fl"><div class="fl-lbl">Dimensões</div><div class="fl-val"><strong>Use &amp; Apply AI:</strong> Aplicação prática<br><strong>Understand AI:</strong> Compreensão de fundamentos<br><strong>Detect AI:</strong> Identificação de sistemas<br><strong>AI Ethics:</strong> Consciência ética<br><strong>Create AI:</strong> Módulo separado para desenvolvimento</div></div>
+      <div class="fl"><div class="fl-lbl">Competências Psicológicas</div><div class="fl-val">Autoeficácia e autorregulação associadas</div></div>
+      <div class="fl"><div class="fl-lbl">Uso Recomendado</div><div class="fl-val">Contextos profissionais e população geral adulta; estrutura modular permite personalização</div></div>
+    </div></div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🎯</span> Instrumentos Baseados em Desempenho (OB)</h4>
+    <div class="card"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">GLAT — Generative AI Literacy Assessment Test</span><div class="tr"><span class="badge bs">Desempenho Objetivo</span></div></div>
+    <div class="card-bd">
+      <div class="fl"><div class="fl-lbl">Formato</div><div class="fl-val">20 itens de múltipla escolha testando conhecimento e julgamento aplicados em GenAI</div></div>
+      <div class="fl"><div class="fl-lbl">Metodologia</div><div class="fl-val"><strong>CTT:</strong> Classical Test Theory + <strong>IRT:</strong> Item Response Theory — validade estrutural e preditiva confirmadas</div></div>
+      <div class="fl"><div class="fl-lbl">Vantagem</div><div class="fl-val"><span class="badge bs">Primeiro teste validado</span> — Melhor predição de desempenho real do que autorrelato. Ideal para pré/pós testes em programas educacionais.</div></div>
+    </div></div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🔄</span> Instrumentos Híbridos (SR + OB)</h4>
+    <div class="card"><div class="card-hd" onclick="toggleCard(this)"><span class="arr">▶</span><span class="ttl">Zhang et al. 2026 Framework</span><div class="tr"><span class="badge bs">SR + OB Alinhados</span><span class="badge bu">Professores</span></div></div>
+    <div class="card-bd">
+      <div class="fl"><div class="fl-lbl">Framework Comum</div><div class="fl-val"><strong>Concept:</strong> Compreensão conceitual de IA<br><strong>Use:</strong> Aplicação prática<br><strong>Evaluate:</strong> Avaliação crítica<br><strong>Ethics:</strong> Consciência ética</div></div>
+      <div class="fl"><div class="fl-lbl">Descoberta Chave</div><div class="fl-val"><span class="badge bw">Baixa correlação SR-OB</span> — Professores frequentemente superestimam capacidades; medidas objetivas mostram desempenho inferior ao autorrelatado</div></div>
+    </div></div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>⚡</span> Recomendação de Uso</h4>
+    <div class="callout cp"><strong>Abordagem Multimétodo Recomendada:</strong>
+      <ul style="list-style:disc;padding-left:18px;margin-top:10px">
+        <li><strong>Linha de Base:</strong> AILQ ou MAILS para mapear percepções e autoeficácia</li>
+        <li><strong>Validação Objetiva:</strong> GLAT ou framework Zhang para medir desempenho real</li>
+        <li><strong>Desenvolvimento Profissional:</strong> Combinar SR + OB para identificar gaps entre percepção e realidade</li>
+        <li><strong>Contextos Regulados:</strong> Adicionar auditoria documental e evidências de governança</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- S12: ROADMAP -->
+<section class="section" id="s12">
+  <div class="sec-intro">
+    <span class="sec-label">Aplicações Práticas</span>
+    <h3 class="sec-title">Roadmap de Implementação</h3>
+    <p class="sec-desc">Linha do tempo sugerida para implementação de programa de AI literacy em conformidade com AI Act.</p>
+  </div>
+  <div class="subsec">
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-date">MÊS 1-2</div><div class="tl-title">Diagnóstico &amp; Planejamento</div><div class="tl-desc"><strong>Ações:</strong> Mapear papel da organização, classificar sistemas por risco, identificar stakeholders, avaliar nível atual de literacia<br><strong>Entregas:</strong> Mapa de riscos, inventory de sistemas, análise de gaps</div></div>
+      <div class="tl-item"><div class="tl-date">MÊS 3-4</div><div class="tl-title">Desenvolvimento de Conteúdo</div><div class="tl-desc"><strong>Ações:</strong> Criar materiais contextualizados por perfil (técnico/não-técnico), desenvolver casos de uso específicos, preparar guias de supervisão<br><strong>Entregas:</strong> Kit de treinamento, guias práticos, templates de documentação</div></div>
+      <div class="tl-item"><div class="tl-date">MÊS 5-6</div><div class="tl-title">Implementação Piloto</div><div class="tl-desc"><strong>Ações:</strong> Treinar grupo piloto, coletar feedback, ajustar conteúdo e abordagem<br><strong>Entregas:</strong> Relatório de piloto, conteúdo revisado, plano de rollout</div></div>
+      <div class="tl-item"><div class="tl-date">MÊS 7-9</div><div class="tl-title">Rollout Organizacional</div><div class="tl-desc"><strong>Ações:</strong> Implementar programa em todas as áreas, estabelecer canais de suporte, criar comunidade de prática<br><strong>Entregas:</strong> Programa completo implantado, suporte ativo, primeiros registros de conformidade</div></div>
+      <div class="tl-item"><div class="tl-date">MÊS 10-12</div><div class="tl-title">Avaliação &amp; Melhoria Contínua</div><div class="tl-desc"><strong>Ações:</strong> Aplicar instrumentos de avaliação (AILQ/MAILS/GLAT), medir efetividade, identificar gaps, planejar ciclo de atualização<br><strong>Entregas:</strong> Relatório de avaliação, plano de melhoria contínua, documentação completa para auditoria</div></div>
+    </div>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🎯</span> Marcos Críticos</h4>
+    <div class="callout creg"><strong>Prazo Legal:</strong> Agosto de 2026 — início da supervisão por autoridades nacionais. Organizações devem estar prontas para demonstrar conformidade com o Artigo 4 do AI Act.</div>
+    <div class="tw"><table><thead><tr><th>Marco</th><th>Prazo</th><th>Requisito</th><th>Entrega</th></tr></thead><tbody>
+    <tr><td>Diagnóstico Completo</td><td class="mono">Mês 2</td><td>Mapear riscos e stakeholders</td><td>Análise de gaps documentada</td></tr>
+    <tr><td>Piloto Validado</td><td class="mono">Mês 6</td><td>Testar abordagem com grupo controlado</td><td>Relatório de piloto aprovado</td></tr>
+    <tr><td>Rollout Completo</td><td class="mono">Mês 9</td><td>100% de cobertura nas áreas críticas</td><td>Registros de treinamento</td></tr>
+    <tr><td>Avaliação Final</td><td class="mono">Mês 12</td><td>Medir efetividade e preparar auditoria</td><td>Documentação completa de conformidade</td></tr>
+    </tbody></table></div>
+  </div>
+</section>
+
+<!-- S13: REFERÊNCIAS -->
+<section class="section" id="s13">
+  <div class="sec-intro">
+    <span class="sec-label">Recursos</span>
+    <h3 class="sec-title">Referências &amp; Documentação</h3>
+    <p class="sec-desc">Fontes primárias e oficiais utilizadas na construção deste índice, organizadas por categoria.</p>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>⚖️</span> Regulamentação</h4>
+    <ul class="ref-list">
+      <li><strong>AI Act (Regulamento UE 2024/1689):</strong> <a href="https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX%3A32024R1689" target="_blank">Versão oficial em português</a> — Texto legal completo do Regulamento de Inteligência Artificial da União Europeia</li>
+      <li><strong>FAQ Oficial da Comissão Europeia sobre AI Literacy:</strong> <a href="https://digital-strategy.ec.europa.eu/en/faqs/ai-literacy-questions-answers" target="_blank">AI Literacy Questions &amp; Answers</a> — Orientações sobre implementação do Artigo 4</li>
+    </ul>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🌍</span> Frameworks Educacionais</h4>
+    <ul class="ref-list">
+      <li><strong>UNESCO — Competências em IA para Estudantes:</strong> <a href="https://www.unesco.org/pt/articles/marco-referencial-de-competencias-em-ia-para-estudantes" target="_blank">Artigo em português</a> — 12 competências em 4 dimensões com progressão por níveis</li>
+      <li><strong>UNESCO — Competências em IA para Professores:</strong> <a href="https://www.unesco.org/pt/articles/marco-referencial-de-competencias-em-ia-para-professores" target="_blank">Artigo em português</a> — 15 competências em 5 dimensões para formação docente</li>
+      <li><strong>OECD — AI and Education and Skills:</strong> <a href="https://www.oecd.org/en/topics/artificial-intelligence-and-education-and-skills.html" target="_blank">Página oficial</a> — Programas de workforce literacy e avaliação MAIL (PISA 2029)</li>
+    </ul>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>📚</span> Literatura Acadêmica</h4>
+    <ul class="ref-list">
+      <li><strong>Long, D., &amp; Magerko, B. (2020):</strong> <a href="https://www.computacional.com.br/ia/publicacoes_relevantes/Artigos_e_ebooks/Long%20-%20What%20is%20AI%20Literacy.pdf" target="_blank">What is AI Literacy? Competencies and Design Considerations</a> — Paper fundacional sobre competências nucleares em AI literacy</li>
+      <li><strong>Chiu, T. K. F., et al. (2024):</strong> <a href="https://www.sciencedirect.com/science/article/pii/S2666557324000120" target="_blank">A holistic framework for AI literacy in K-12</a> — Diferenciação entre literacy e competency; framework com 5 componentes</li>
+      <li><strong>Revisão Sistemática de Escalas (2024):</strong> <a href="https://www.nature.com/articles/s41539-024-00264-4" target="_blank">Measurement properties of AI literacy scales</a> — Análise de 16 escalas validadas com metodologia COSMIN/GRADE</li>
+      <li><strong>Zhang et al. (2026):</strong> <a href="https://www.sciencedirect.com/science/article/pii/S2666920X25000761" target="_blank">Self-report vs objective-based measures of AI literacy</a> — Estudo mostrando desalinhamento entre autorrelato e desempenho</li>
+    </ul>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🧪</span> Instrumentos de Avaliação</h4>
+    <ul class="ref-list">
+      <li><strong>AILQ:</strong> <a href="https://www.researchgate.net/publication/376502036_Design_and_validation_of_the_AI_literacy_questionnaire_The_affective_behavioural_cognitive_and_ethical_approach" target="_blank">Design and validation — ABCE approach</a> — 32 itens para estudantes</li>
+      <li><strong>MAILS:</strong> <a href="https://www.sciencedirect.com/science/article/pii/S2949882123000142" target="_blank">Modular scale with psychological competencies</a> — Escala modular para adultos</li>
+      <li><strong>GLAT:</strong> <a href="https://arxiv.org/abs/2601.06101" target="_blank">First validated performance-based test for GenAI literacy</a> — 20 itens múltipla escolha com CTT + IRT</li>
+    </ul>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>🔬</span> Contexto &amp; Benchmarks</h4>
+    <ul class="ref-list">
+      <li><strong>AI Index 2026:</strong> <a href="https://hai.stanford.edu/ai-index/2026-ai-index-report" target="_blank">Annual Report — Stanford HAI</a> — Estado da arte em capacidades técnicas e IA responsável</li>
+      <li><strong>Anthropic — Transparency Hub:</strong> <a href="https://www.anthropic.com/transparency" target="_blank">Página oficial</a> — System cards, políticas e documentação pública</li>
+      <li><strong>Anthropic — Documentação Claude (PT-BR):</strong> <a href="https://docs.anthropic.com/pt/docs/intro-to-claude" target="_blank">Introdução ao Claude</a> — Recursos, limitações e melhores práticas</li>
+      <li><strong>Anthropic — Tool Use:</strong> <a href="https://docs.anthropic.com/pt/docs/build-with-claude/tool-use" target="_blank">Documentação de ferramentas</a> — Integração com sistemas externos</li>
+    </ul>
+  </div>
+  <div class="subsec">
+    <h4 class="sub-title"><span>📖</span> Como Usar Este Material</h4>
+    <div class="callout cp"><strong>Citação Sugerida:</strong><br>AI Literacy &amp; Governance — Índice Proposto para Claude. (2026). v1.0. Baseado em AI Act (UE 2024/1689), frameworks UNESCO/OECD e revisão sistemática de literatura.</div>
+  </div>
+</section>
+
+  </div><!-- /.content -->
+</main>
+
+<script>
+function goTo(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  var s=document.getElementById(id);
+  if(s){
+    s.classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    var ni=document.querySelector('.nav-item[data-section="'+id+'"]');
+    if(ni){ni.classList.add('active');document.getElementById('page-title').textContent=ni.textContent.trim().replace(/^\d+\s*/,'');}
+    if(window.innerWidth<=1100)toggleSidebar();
+    window.scrollTo(0,0);
+  }
+}
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.querySelector('.overlay').classList.toggle('active');
+}
+function filterNav(q){
+  var lq=q.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(function(i){
+    i.style.display=i.textContent.toLowerCase().includes(lq)?'flex':'none';
+  });
+}
+function toggleCard(h){
+  var b=h.closest('.card').querySelector('.card-bd');
+  h.classList.toggle('open');
+  if(b)b.classList.toggle('open');
+}
+function updateProgress(){
+  var total=document.querySelectorAll('.ck-item input[type=checkbox]').length;
+  var checked=document.querySelectorAll('.ck-item input[type=checkbox]:checked').length;
+  var pct=Math.round((checked/total)*100);
+  var f=document.getElementById('progress-fill');
+  var p=document.getElementById('progress-pct');
+  if(f)f.style.width=pct+'%';
+  if(p)p.textContent=pct+'%';
+  document.querySelectorAll('.ck-item').forEach(function(i){
+    var cb=i.querySelector('input[type=checkbox]');
+    if(cb){if(cb.checked)i.classList.add('done');else i.classList.remove('done');}
+  });
+}
+document.addEventListener('DOMContentLoaded',function(){
+  updateProgress();
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){
+      var sb=document.getElementById('sidebar');
+      if(sb&&sb.classList.contains('open'))toggleSidebar();
+    }
+  });
+});
+</script>
+</body>
+</html>
