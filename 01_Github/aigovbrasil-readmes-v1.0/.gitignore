@@ -1,0 +1,48 @@
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V7
+.Trashes
+.AppleDouble
+.LSOverride
+__MACOSX/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Secrets and credentials
+.env
+.env.*
+*.key
+*.pem
+*.p12
+credentials.json
+secrets/
+
+# Node
+node_modules/
+dist/
+build/
+.cache/
+
+# Temporary
+tmp/
+temp/
+*.log
+*.tmp
+screenshots/tmp/
+exports/tmp/
+reports/tmp/
+
+# Thumbnails
+Thumbs.db
+
+# Preserve (never ignore)
+# *.md *.html *.txt *.css *.mmd *.svg
+# skills/ docs/ guides/ templates/ content/ assets/

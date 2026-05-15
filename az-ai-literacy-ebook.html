@@ -1,0 +1,2066 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>A-Z da AI Literacy & AI Fluency</title>
+
+<!-- ══ THEME-FACTORY: Custom IBM Plex Theme ══
+     Palette:  navy #0B1F3A · blue_action #246BFD · gray_text #374151
+               gray_light #F3F4F6 · white #FFFFFF
+     Fonts:    IBM Plex Sans Condensed (headings)
+               IBM Plex Sans (UI / subtitles)
+               IBM Plex Serif (body)
+               IBM Plex Mono (code / tags)
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+
+<style>
+/* ══ VISUAL-CANVAS-STUDIO: Token Architecture ══ */
+:root {
+  /* Palette — from YAML design spec */
+  --navy:          #0B1F3A;
+  --navy-mid:      #13315C;
+  --blue:          #246BFD;
+  --blue-soft:     #D6E4FF;
+  --blue-mid:      #4D85FE;
+  --gray-text:     #374151;
+  --gray-mid:      #6B7280;
+  --gray-light:    #F3F4F6;
+  --gray-border:   #E5E7EB;
+  --white:         #FFFFFF;
+  --accent-gold:   #C8972A;
+  --accent-red:    #DC2626;
+  --accent-green:  #059669;
+
+  /* Typography */
+  --font-heading:  'IBM Plex Sans Condensed', Arial, sans-serif;
+  --font-sans:     'IBM Plex Sans', -apple-system, sans-serif;
+  --font-serif:    'IBM Plex Serif', Georgia, serif;
+  --font-mono:     'IBM Plex Mono', 'Courier New', monospace;
+
+  /* A4 dimensions */
+  --page-w:        794px;
+  --page-h:        1123px;
+  --page-pad:      56px;
+  --page-pad-sm:   40px;
+}
+
+/* ══ RESET & BASE ══ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #1a1f2e;
+  font-family: var(--font-serif);
+  color: var(--gray-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 40px 20px 60px;
+}
+
+/* ══ A4 PAGE SHELL ══ */
+.page {
+  width: var(--page-w);
+  min-height: var(--page-h);
+  background: var(--white);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  page-break-after: always;
+}
+
+/* ══ SHARED COMPONENTS ══ */
+.page-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gray-mid);
+  position: absolute;
+  bottom: 28px;
+  right: var(--page-pad);
+}
+.page-number {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--gray-mid);
+  position: absolute;
+  bottom: 28px;
+  left: var(--page-pad);
+}
+.top-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--navy) 0%, var(--blue) 100%);
+}
+.section-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  border: 1px solid var(--blue);
+  padding: 3px 8px;
+  margin-bottom: 12px;
+}
+.page-title {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.page-subtitle {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--gray-mid);
+  margin-top: 4px;
+  font-weight: 300;
+}
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--gray-border);
+  margin: 20px 0;
+}
+.blue-rule {
+  width: 40px;
+  height: 3px;
+  background: var(--blue);
+  margin-bottom: 16px;
+}
+
+/* ════════════════════════════════════════════
+   PAGE 1 — COVER
+════════════════════════════════════════════ */
+.page-cover {
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+}
+.cover-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(36,107,253,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(36,107,253,0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.cover-accent-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--blue) 0%, #5FA0FF 100%);
+}
+.cover-side-bar {
+  position: absolute;
+  top: 6px; left: 0;
+  width: 4px;
+  height: 340px;
+  background: linear-gradient(180deg, var(--blue) 0%, transparent 100%);
+}
+.cover-body {
+  position: absolute;
+  left: var(--page-pad);
+  top: 88px;
+  right: var(--page-pad);
+}
+.cover-kicker {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-mid);
+  margin-bottom: 28px;
+}
+.cover-title {
+  font-family: var(--font-heading);
+  font-size: 58px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+.cover-title span { color: var(--blue-mid); }
+.cover-subtitle {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: rgba(255,255,255,0.65);
+  font-weight: 300;
+  line-height: 1.55;
+  max-width: 520px;
+  margin-bottom: 48px;
+}
+.cover-thesis-box {
+  border-left: 3px solid var(--blue);
+  padding: 20px 24px;
+  background: rgba(36,107,253,0.08);
+  max-width: 560px;
+  margin-bottom: 48px;
+}
+.cover-thesis-box p {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: rgba(255,255,255,0.82);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.cover-thesis-box p:last-child { margin-bottom: 0; }
+.cover-thesis-box strong { color: var(--white); }
+.cover-method {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 56px;
+}
+.cover-method-step {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  background: rgba(255,255,255,0.08);
+  padding: 8px 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.cover-method-step.active {
+  background: var(--blue);
+  border-color: var(--blue);
+}
+.cover-method-arrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  padding: 0 4px;
+}
+.cover-bottom {
+  position: absolute;
+  bottom: 48px;
+  left: var(--page-pad);
+  right: var(--page-pad);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.cover-audience {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 300;
+  max-width: 400px;
+  line-height: 1.5;
+}
+.cover-version {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+  text-align: right;
+}
+.cover-large-z {
+  position: absolute;
+  right: -20px;
+  bottom: 40px;
+  font-family: var(--font-heading);
+  font-size: 320px;
+  font-weight: 700;
+  color: rgba(36,107,253,0.06);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ════════════════════════════════════════════
+   PAGE 2 — EXECUTIVE BRIEF
+════════════════════════════════════════════ */
+.page-content {
+  padding: var(--page-pad);
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+.impact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+.impact-card {
+  background: var(--gray-light);
+  border-left: 3px solid var(--blue);
+  padding: 12px 14px;
+}
+.impact-card .area {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blue);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.impact-card p {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  color: var(--gray-text);
+  line-height: 1.5;
+}
+.factor-row {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gray-border);
+}
+.factor-row:last-child { border-bottom: none; }
+.factor-type {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--white);
+  background: var(--navy);
+  padding: 3px 7px;
+  white-space: nowrap;
+  align-self: flex-start;
+  margin-top: 2px;
+  letter-spacing: 0.04em;
+}
+.factor-desc {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  color: var(--gray-text);
+  line-height: 1.55;
+  flex: 1;
+}
+.factor-source {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--blue);
+  margin-top: 4px;
+  display: block;
+}
+.section-heading {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.body-text {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--gray-text);
+  line-height: 1.65;
+}
+
+/* ════════════════════════════════════════════
+   PAGE 3 — METHODOLOGY TABLE
+════════════════════════════════════════════ */
+.method-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+.method-table th {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--navy);
+  padding: 10px 12px;
+  text-align: left;
+}
+.method-table td {
+  font-family: var(--font-serif);
+  font-size: 11.5px;
+  color: var(--gray-text);
+  line-height: 1.5;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--gray-border);
+  vertical-align: top;
+}
+.method-table tr:nth-child(even) td { background: var(--gray-light); }
+.method-table .source-name {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.method-table .ref-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--blue);
+  display: block;
+  margin-top: 4px;
+}
+.intro-callout {
+  background: var(--blue-soft);
+  border-left: 4px solid var(--blue);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+}
+.intro-callout p {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--navy);
+  line-height: 1.6;
+}
+
+/* ════════════════════════════════════════════
+   PAGE 4 — FRAMEWORK 5 STAGES
+════════════════════════════════════════════ */
+.framework-intro {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--gray-text);
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+.stage-card {
+  display: grid;
+  grid-template-columns: 52px 1fr 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--gray-border);
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.stage-num {
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px;
+}
+.stage-num .num {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--blue-mid);
+  line-height: 1;
+}
+.stage-num .name {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.stage-main {
+  padding: 14px 16px;
+  border-right: 1px solid var(--gray-border);
+}
+.stage-main .label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.stage-main .def {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.35;
+}
+.stage-main .fn {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: var(--gray-mid);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.stage-action {
+  padding: 14px 16px;
+  border-right: 1px solid var(--gray-border);
+  background: var(--gray-light);
+}
+.stage-action .label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gray-mid);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.stage-action p {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: var(--gray-text);
+  line-height: 1.45;
+}
+.stage-q {
+  padding: 14px 16px;
+  background: var(--blue-soft);
+}
+.stage-q .label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.stage-q p {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  font-style: italic;
+  color: var(--navy);
+  line-height: 1.45;
+}
+
+/* ════════════════════════════════════════════
+   PAGES 5-6 — A-Z CARDS
+════════════════════════════════════════════ */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+.letter-card {
+  border: 1px solid var(--gray-border);
+  overflow: hidden;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--navy);
+}
+.card-letter {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--blue-mid);
+  line-height: 1;
+  min-width: 20px;
+}
+.card-concept {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.2;
+}
+.card-body {
+  padding: 8px 10px;
+}
+.card-row {
+  margin-bottom: 5px;
+}
+.card-row .lbl {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 1px;
+}
+.card-row p {
+  font-family: var(--font-serif);
+  font-size: 10.5px;
+  color: var(--gray-text);
+  line-height: 1.35;
+}
+.card-q {
+  background: var(--blue-soft);
+  padding: 6px 10px;
+  border-top: 1px solid var(--gray-border);
+}
+.card-q p {
+  font-family: var(--font-serif);
+  font-size: 10px;
+  font-style: italic;
+  color: var(--navy);
+  line-height: 1.3;
+}
+
+/* ════════════════════════════════════════════
+   PAGE 7 — CHECKLIST
+════════════════════════════════════════════ */
+.checklist-intro {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--gray-text);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.score-band-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.score-band {
+  padding: 12px 14px;
+  border-left: 4px solid;
+}
+.score-band.basic   { border-color: var(--gray-mid); background: #F9FAFB; }
+.score-band.inter   { border-color: var(--blue);     background: var(--blue-soft); }
+.score-band.adv     { border-color: var(--accent-green); background: #ECFDF5; }
+.score-band .range {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 2px;
+}
+.score-band .desc {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: var(--gray-text);
+  line-height: 1.4;
+}
+.checklist-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 24px;
+}
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--gray-border);
+}
+.check-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--blue);
+  min-width: 18px;
+  margin-top: 1px;
+}
+.check-box {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--gray-border);
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.check-score {
+  display: flex;
+  gap: 2px;
+}
+.score-circle {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--gray-border);
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-mid);
+}
+.check-text {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  color: var(--gray-text);
+  line-height: 1.45;
+  flex: 1;
+}
+
+/* ════════════════════════════════════════════
+   PAGE 8 — PERSONALISATION GUIDE
+════════════════════════════════════════════ */
+.layer-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+}
+.layer-table th {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--navy);
+  padding: 9px 12px;
+  text-align: left;
+}
+.layer-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--gray-border);
+  vertical-align: top;
+}
+.layer-table tr:nth-child(even) td { background: var(--gray-light); }
+.layer-name {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.layer-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  background: var(--blue);
+  color: var(--white);
+  padding: 2px 6px;
+  letter-spacing: 0.04em;
+}
+.layer-table .fn {
+  font-family: var(--font-serif);
+  font-size: 11.5px;
+  color: var(--gray-text);
+  line-height: 1.5;
+}
+.layer-table .good {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: var(--accent-green);
+  line-height: 1.45;
+}
+.layer-table .bad {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  color: var(--accent-red);
+  line-height: 1.45;
+}
+.layer-table .ex {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--navy);
+  background: var(--blue-soft);
+  padding: 4px 8px;
+  margin-top: 4px;
+  display: block;
+  line-height: 1.4;
+}
+.principle-box {
+  background: var(--navy);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.principle-item {
+  font-family: var(--font-serif);
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.45;
+}
+.principle-item strong {
+  color: var(--blue-mid);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* ════════════════════════════════════════════
+   PAGE 9 — 30 DAY PLAN
+════════════════════════════════════════════ */
+.week-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+.week-card {
+  border: 1px solid var(--gray-border);
+  overflow: hidden;
+}
+.week-header {
+  background: var(--navy);
+  padding: 12px 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.week-label {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--blue-mid);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.week-title {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+}
+.week-body {
+  padding: 14px 16px;
+}
+.week-objective {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  color: var(--navy);
+  font-weight: 600;
+  margin-bottom: 10px;
+  line-height: 1.4;
+  padding-left: 10px;
+  border-left: 3px solid var(--blue);
+}
+.week-actions {
+  list-style: none;
+  margin-bottom: 12px;
+}
+.week-actions li {
+  font-family: var(--font-serif);
+  font-size: 11.5px;
+  color: var(--gray-text);
+  line-height: 1.45;
+  padding: 4px 0 4px 16px;
+  position: relative;
+  border-bottom: 1px solid var(--gray-border);
+}
+.week-actions li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--blue);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+.week-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.metric-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--navy);
+  border: 1px solid var(--blue);
+  padding: 3px 8px;
+  letter-spacing: 0.04em;
+}
+.week-deliverable {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--blue);
+  padding: 6px 10px;
+  margin-bottom: 10px;
+}
+
+/* ════════════════════════════════════════════
+   PAGE 10 — CONCLUSION
+════════════════════════════════════════════ */
+.prompt-box {
+  border: 1px solid var(--blue);
+  background: #F0F5FF;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+.prompt-box .prompt-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.prompt-box .prompt-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--blue);
+  opacity: 0.3;
+}
+.prompt-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--navy);
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+.conclusion-text {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--gray-text);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.conclusion-text strong { color: var(--navy); }
+.cta-bar {
+  background: var(--navy);
+  padding: 20px 24px;
+  margin-top: 24px;
+}
+.cta-bar p {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.6;
+}
+.cta-bar strong {
+  color: var(--blue-mid);
+  font-style: normal;
+}
+.refs-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+.ref-item {
+  border-top: 2px solid var(--blue);
+  padding-top: 8px;
+}
+.ref-item .ref-type {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--blue);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.ref-item .ref-title {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+.ref-item .ref-url {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--gray-mid);
+  word-break: break-all;
+  line-height: 1.35;
+}
+
+/* ════════════════════════════════════════════
+   PRINT MEDIA QUERY — pdf skill
+════════════════════════════════════════════ */
+@media print {
+  body {
+    background: none;
+    padding: 0;
+    gap: 0;
+    display: block;
+  }
+  .page {
+    box-shadow: none;
+    page-break-after: always;
+    break-after: page;
+  }
+  .top-bar { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     PAGE 1 — CAPA
+════════════════════════════════════════════ -->
+<div class="page page-cover">
+  <div class="cover-grid"></div>
+  <div class="cover-accent-bar"></div>
+  <div class="cover-side-bar"></div>
+
+  <div class="cover-body">
+    <div class="cover-kicker">Guia Executivo · AI Literacy & AI Fluency · 2026</div>
+
+    <div class="cover-title">
+      A–Z da<br/>
+      <span>AI Literacy</span><br/>
+      & AI Fluency
+    </div>
+
+    <div class="cover-subtitle">
+      Como usar IA com clareza, crítica e responsabilidade no trabalho.<br/>
+      Do letramento básico à fluência operacional.
+    </div>
+
+    <div class="cover-thesis-box">
+      <p><strong>Acesso à IA não é fluência.</strong></p>
+      <p>Fluência é saber <strong>delegar, descrever, discernir, verificar</strong> e responder pelo uso.</p>
+    </div>
+
+    <div class="cover-method">
+      <div class="cover-method-step active">Aprender</div>
+      <div class="cover-method-arrow">→</div>
+      <div class="cover-method-step">Configurar</div>
+      <div class="cover-method-arrow">→</div>
+      <div class="cover-method-step">Usar</div>
+      <div class="cover-method-arrow">→</div>
+      <div class="cover-method-step">Verificar</div>
+      <div class="cover-method-arrow">→</div>
+      <div class="cover-method-step">Registrar</div>
+    </div>
+  </div>
+
+  <div class="cover-large-z">A-Z</div>
+
+  <div class="cover-bottom">
+    <div class="cover-audience">
+      Para executivos, pesquisadores, analistas, consultores<br/>
+      e profissionais não-devs que usam IA no trabalho.
+    </div>
+    <div class="cover-version">
+      Versão 1.0<br/>
+      © 2026
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PAGE 2 — POR QUE ISSO IMPORTA AGORA
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-content" style="padding-top:52px;">
+
+    <div class="section-tag">Contexto Estratégico</div>
+    <div class="page-title">Por que isso importa agora</div>
+    <div class="page-subtitle">O problema, o custo da inação e os fatores de mudança</div>
+    <div class="divider"></div>
+
+    <div class="two-col">
+      <!-- Left column -->
+      <div>
+        <div class="section-heading">O Problema Estratégico</div>
+        <p class="body-text">A adoção de IA generativa acelerou radicalmente no trabalho. Profissionais usam IA para pesquisa, análise, escrita, código e decisão. Mas acesso não é maturidade.</p>
+        <p class="body-text" style="margin-top:10px;">A maior parte do uso ainda é baseada em prompts isolados, sem personalização, sem verificação e sem governança. O resultado: retrabalho elevado, confiança falsa em outputs polidos mas imprecisos, e exposição a riscos de compliance, privacidade e reputação.</p>
+
+        <div style="margin-top:20px;">
+          <div class="section-heading">O Custo da Inação</div>
+          <div class="impact-grid">
+            <div class="impact-card">
+              <div class="area">Produtividade</div>
+              <p>Tempo gasto corrigindo outputs mal especificados ou verificando informações alucinadas.</p>
+            </div>
+            <div class="impact-card">
+              <div class="area">Qualidade</div>
+              <p>Decisões baseadas em respostas genéricas ou desatualizadas.</p>
+            </div>
+            <div class="impact-card">
+              <div class="area">Governança</div>
+              <p>Exposição de dados sensíveis, falta de trilha de auditoria, uso sem supervisão.</p>
+            </div>
+            <div class="impact-card">
+              <div class="area">Competitividade</div>
+              <p>Organizações que não estruturam uso de IA ficam mais lentas e menos confiáveis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div>
+        <div class="section-heading">Mudança de Contexto — Por Que Agora</div>
+
+        <div class="factor-row">
+          <div>
+            <div class="factor-type">Regulatório</div>
+          </div>
+          <div class="factor-desc">
+            O AI Act da UE torna AI literacy uma obrigação legal desde fevereiro de 2025. O Artigo 4 exige formação proporcional ao contexto, risco e pessoas afetadas.
+            <span class="factor-source">↗ AI Act, Artigo 4</span>
+          </div>
+        </div>
+
+        <div class="factor-row">
+          <div>
+            <div class="factor-type">Comportamental</div>
+          </div>
+          <div class="factor-desc">
+            O AI Fluency Index analisou 9.830 conversas e identificou que 85,7% tinham iteração. Conversas iterativas questionam mais o raciocínio e identificam melhor o contexto ausente.
+            <span class="factor-source">↗ Anthropic AI Fluency Index</span>
+          </div>
+        </div>
+
+        <div class="factor-row">
+          <div>
+            <div class="factor-type">Operacional</div>
+          </div>
+          <div class="factor-desc">
+            Personalização em camadas transforma IA de ferramenta genérica em sistema alinhado ao trabalho real. A maioria não separa contexto, método e output corretamente.
+            <span class="factor-source">↗ Documentação oficial Claude</span>
+          </div>
+        </div>
+
+        <div class="factor-row">
+          <div>
+            <div class="factor-type">Estratégico</div>
+          </div>
+          <div class="factor-desc">
+            Acelerar aprendizado exige agenda estruturada, perguntas sobre o passado e testes de hipóteses — não ação imediata sem contexto.
+            <span class="factor-source">↗ Método Watkins — First 90 Days</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="page-number">02</div>
+  <div class="page-label">A-Z da AI Literacy & AI Fluency</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PAGE 3 — FONTES E METODOLOGIA
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-content" style="padding-top:52px;">
+
+    <div class="section-tag">Base Metodológica</div>
+    <div class="page-title">Fontes e base metodológica</div>
+    <div class="page-subtitle">Fontes primárias, regulação oficial, pesquisa comportamental e documentação técnica</div>
+    <div class="divider"></div>
+
+    <div class="intro-callout">
+      <p>Este guia foi desenvolvido com base em fontes primárias. Nenhum dado, estatística ou claim foi inventado. Cada afirmação tem referência rastreável.</p>
+    </div>
+
+    <table class="method-table">
+      <thead>
+        <tr>
+          <th style="width:16%">Fonte</th>
+          <th style="width:36%">Contribuição</th>
+          <th style="width:32%">Aplicação Prática</th>
+          <th style="width:16%">Referência</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="source-name">AI Act / AI Literacy</div></td>
+          <td class="fn">Define AI literacy como competências, conhecimentos e compreensão para uso informado. Obriga provedores e deployers a garantirem formação proporcional ao contexto, risco e pessoas afetadas.</td>
+          <td class="fn">Letramento em IA deixa de ser habilidade opcional e passa a ser obrigação organizacional.</td>
+          <td><span class="ref-badge">Artigo 4 do AI Act</span><span class="ref-badge">Vigência: 02/02/2025</span></td>
+        </tr>
+        <tr>
+          <td><div class="source-name">AI Fluency Index</div></td>
+          <td class="fn">Analisou 9.830 conversas com Claude. Identificou que 85,7% tinham iteração. Conversas com refinamento apresentam mais comportamentos de fluência: questionar raciocínio, identificar contexto ausente, avaliar fonte.</td>
+          <td class="fn">Evidência comportamental: iteração e crítica distinguem uso maduro de uso básico.</td>
+          <td><span class="ref-badge">Anthropic Education Report</span><span class="ref-badge">AI Fluency Index</span></td>
+        </tr>
+        <tr>
+          <td><div class="source-name">AI Fluency Framework</div></td>
+          <td class="fn">Define fluência em 4 competências: Delegation (o que delegar), Description (como dar contexto), Discernment (avaliar raciocínio e fonte), Diligence (responsabilidade e supervisão).</td>
+          <td class="fn">Framework para avaliar maturidade no uso de IA — os 4 D's.</td>
+          <td><span class="ref-badge">Anthropic</span><span class="ref-badge">Framework 4D</span></td>
+        </tr>
+        <tr>
+          <td><div class="source-name">Documentação Claude</div></td>
+          <td class="fn">Explica personalização em camadas: perfil, projetos, estilos, skills, RAG e busca. Alerta para evitar overengineering e mistura de contextos.</td>
+          <td class="fn">Guia operacional para configurar IA como sistema de trabalho, não apenas ferramenta genérica.</td>
+          <td><span class="ref-badge">docs.anthropic.com</span><span class="ref-badge">Oficial /pt</span></td>
+        </tr>
+        <tr>
+          <td><div class="source-name">Método Watkins</div></td>
+          <td class="fn">Criar agenda de aprendizado antes de agir: perguntas sobre passado, presente e futuro; entender histórico antes de propor mudança; ciclos de hipóteses e testes.</td>
+          <td class="fn">Método para acelerar aprendizado estruturado e reduzir vulnerabilidade inicial.</td>
+          <td><span class="ref-badge">The First 90 Days</span><span class="ref-badge">M. Watkins</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="page-number">03</div>
+  <div class="page-label">A-Z da AI Literacy & AI Fluency</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PAGE 4 — FRAMEWORK CENTRAL 5 ETAPAS
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-content" style="padding-top:52px;">
+
+    <div class="section-tag">Framework Central</div>
+    <div class="page-title">5 Etapas para uso maduro de IA</div>
+    <div class="page-subtitle">Aprender → Configurar → Usar → Verificar → Registrar</div>
+    <div class="divider"></div>
+
+    <p class="framework-intro">Cada etapa tem função estratégica, evita um erro específico e gera uma ação prática. Execute em sequência — não pule etapas.</p>
+
+    <!-- Stage 1 -->
+    <div class="stage-card">
+      <div class="stage-num">
+        <div class="num">01</div>
+        <div class="name">Aprender</div>
+      </div>
+      <div class="stage-main">
+        <div class="label">Definição</div>
+        <div class="def">Definir agenda de aprendizado antes de agir</div>
+        <div class="fn">Reduz vulnerabilidade inicial. Evita decisões precipitadas sem clareza sobre objetivo.</div>
+      </div>
+      <div class="stage-action">
+        <div class="label">Ação Executiva</div>
+        <p>Criar lista de perguntas essenciais. Mapear o que precisa saber sobre IA, seu trabalho e os riscos envolvidos.</p>
+      </div>
+      <div class="stage-q">
+        <div class="label">Autoavaliação</div>
+        <p>Sei o que quero aprender ou só estou perguntando aleatoriamente?</p>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-card">
+      <div class="stage-num">
+        <div class="num">02</div>
+        <div class="name">Configurar</div>
+      </div>
+      <div class="stage-main">
+        <div class="label">Definição</div>
+        <div class="def">Estruturar contexto, preferências e workflows</div>
+        <div class="fn">Transforma IA de ferramenta genérica em sistema personalizado e alinhado ao trabalho real.</div>
+      </div>
+      <div class="stage-action">
+        <div class="label">Ação Executiva</div>
+        <p>Separar perfil (preferências gerais), projetos (contexto por tema), estilos (formato de saída) e skills (tarefas repetíveis).</p>
+      </div>
+      <div class="stage-q">
+        <div class="label">Autoavaliação</div>
+        <p>Minha conta Claude reflete meu trabalho real ou está desorganizada?</p>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-card">
+      <div class="stage-num">
+        <div class="num">03</div>
+        <div class="name">Usar</div>
+      </div>
+      <div class="stage-main">
+        <div class="label">Definição</div>
+        <div class="def">Aplicar IA com iteração, refinamento e crítica</div>
+        <div class="fn">Melhora qualidade por refinamento. Usa IA como parceira de pensamento, não oráculo.</div>
+      </div>
+      <div class="stage-action">
+        <div class="label">Ação Executiva</div>
+        <p>Fazer pelo menos uma rodada de crítica. Questionar raciocínio. Pedir incertezas e limites explicitamente.</p>
+      </div>
+      <div class="stage-q">
+        <div class="label">Autoavaliação</div>
+        <p>Refinei a resposta ou aceitei a primeira versão?</p>
+      </div>
+    </div>
+
+    <!-- Stage 4 -->
+    <div class="stage-card">
+      <div class="stage-num">
+        <div class="num">04</div>
+        <div class="name">Verificar</div>
+      </div>
+      <div class="stage-main">
+        <div class="label">Definição</div>
+        <div class="def">Checar fonte, lógica, lacunas e riscos</div>
+        <div class="fn">Reduz erro, alucinação e retrabalho. Garante responsabilidade sobre o output.</div>
+      </div>
+      <div class="stage-action">
+        <div class="label">Ação Executiva</div>
+        <p>Rodar checklist: evidência, fonte, incerteza, risco, dado sensível, revisão humana realizada.</p>
+      </div>
+      <div class="stage-q">
+        <div class="label">Autoavaliação</div>
+        <p>O que falta verificar antes de usar este output?</p>
+      </div>
+    </div>
+
+    <!-- Stage 5 -->
+    <div class="stage-card">
+      <div class="stage-num">
+        <div class="num">05</div>
+        <div class="name">Registrar</div>
+      </div>
+      <div class="stage-main">
+        <div class="label">Definição</div>
+        <div class="def">Documentar decisões, hipóteses e uso de IA</div>
+        <div class="fn">Cria trilha de auditoria. Permite melhoria contínua e rastreabilidade do processo.</div>
+      </div>
+      <div class="stage-action">
+        <div class="label">Ação Executiva</div>
+        <p>Manter log de decisões. Registrar o que funcionou. Documentar uso de IA em entregas sensíveis.</p>
+      </div>
+      <div class="stage-q">
+        <div class="label">Autoavaliação</div>
+        <p>Sei explicar como usei IA neste output?</p>
+      </div>
+    </div>
+
+  </div>
+  <div class="page-number">04</div>
+  <div class="page-label">A-Z da AI Literacy & AI Fluency</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PAGE 5 — CARDS A–M
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-content" style="padding-top:52px;">
+
+    <div class="section-tag">Cartões A–Z · Parte 1</div>
+    <div class="page-title">De Agenda de aprendizado até Método estruturado</div>
+    <div class="divider" style="margin-bottom:0;"></div>
+
+    <div class="cards-grid">
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">A</div><div class="card-concept">Agenda de Aprendizado</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Definir perguntas antes de agir</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Organizar o que preciso aprender com IA</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Project 'AI Learning Agenda'</p></div>
+        </div>
+        <div class="card-q"><p>Sei o que quero aprender ou só estou perguntando aleatoriamente?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">B</div><div class="card-concept">Base de Contexto</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Upload de materiais essenciais</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Dar à IA histórico, fontes e restrições</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Project Knowledge com arquivos bem nomeados</p></div>
+        </div>
+        <div class="card-q"><p>A IA tem contexto suficiente para responder bem?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">C</div><div class="card-concept">Calibração</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Pedir incertezas e limites</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Evitar confiança falsa no output</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Instrução: 'declare grau de confiança'</p></div>
+        </div>
+        <div class="card-q"><p>Estou tratando texto fluente como verdade?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">D</div><div class="card-concept">Delegação</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Separar tarefas humanas vs IA</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Decidir o que a IA pode fazer</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Perfil: 'diga o que não devo delegar'</p></div>
+        </div>
+        <div class="card-q"><p>Esta tarefa deve ser automatizada, apoiada ou feita por humano?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">E</div><div class="card-concept">Evidência</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Exigir fonte, dado ou exemplo</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Reduzir alucinação e retrabalho</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Project com pasta de fontes confiáveis</p></div>
+        </div>
+        <div class="card-q"><p>O output tem evidência ou só afirmação?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">F</div><div class="card-concept">Fluência</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Iterar, revisar, questionar</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Usar IA como parceira de pensamento</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Estilo 'crítico, não complacente'</p></div>
+        </div>
+        <div class="card-q"><p>Refinei a resposta ou aceitei a primeira versão?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">G</div><div class="card-concept">Governança</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Criar regras mínimas de uso</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Evitar exposição, erro e uso indevido</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Instruções do projeto com políticas</p></div>
+        </div>
+        <div class="card-q"><p>Temos regra para dados sensíveis e revisão humana?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">H</div><div class="card-concept">Histórico</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Perguntar 'como chegamos aqui?'</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Evitar solução importada fora de contexto</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Project por cliente ou projeto</p></div>
+        </div>
+        <div class="card-q"><p>Entendi o histórico antes de propor mudança?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">I</div><div class="card-concept">Iteração</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Conversa em ciclos</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Melhorar qualidade por refinamento</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Perfil: 'faça perguntas antes de concluir'</p></div>
+        </div>
+        <div class="card-q"><p>Houve pelo menos uma rodada de crítica e ajuste?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">J</div><div class="card-concept">Julgamento Humano</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Revisão final responsável</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Não terceirizar decisão crítica</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Checklist final obrigatório</p></div>
+        </div>
+        <div class="card-q"><p>Quem assina a decisão: eu ou a IA?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">K</div><div class="card-concept">Knowledge Base</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Corpus organizado</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Transformar documentos em memória operacional</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Projects + RAG + nomes descritivos</p></div>
+        </div>
+        <div class="card-q"><p>Meus arquivos estão organizados para recuperação?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">L</div><div class="card-concept">Letramento em IA</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Entender uso, risco e limite</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Cumprir AI literacy de forma prática</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Guia interno no Project</p></div>
+        </div>
+        <div class="card-q"><p>A pessoa sabe o que a IA faz, erra e não deve fazer?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">M</div><div class="card-concept">Método Estruturado</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Roteiro uniforme</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Comparar respostas e reduzir viés</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Template de pergunta padrão</p></div>
+        </div>
+        <div class="card-q"><p>Uso o mesmo roteiro para comparar casos?</p></div>
+      </div>
+
+    </div>
+  </div>
+  <div class="page-number">05</div>
+  <div class="page-label">A-Z da AI Literacy & AI Fluency</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PAGE 6 — CARDS N–Z
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-content" style="padding-top:52px;">
+
+    <div class="section-tag">Cartões A–Z · Parte 2</div>
+    <div class="page-title">De Não-delegável até Zona de risco</div>
+    <div class="divider" style="margin-bottom:0;"></div>
+
+    <div class="cards-grid">
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">N</div><div class="card-concept">Não-delegável</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Lista de exclusão</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Bloquear usos críticos sem revisão</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Instrução: 'marque decisões não-delegáveis'</p></div>
+        </div>
+        <div class="card-q"><p>Quais tarefas exigem especialista humano?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">O</div><div class="card-concept">Overengineering</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Cortar excesso de sistema</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Evitar arquitetura maior que a dor</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Estilo 'simples primeiro'</p></div>
+        </div>
+        <div class="card-q"><p>Estou criando sistema antes de provar necessidade?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">P</div><div class="card-concept">Personalização</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Ajustar perfil, projetos e estilo</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Fazer a conta trabalhar como sistema</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Perfil + Projects + Styles + Skills</p></div>
+        </div>
+        <div class="card-q"><p>Minha conta reflete meu trabalho real?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">Q</div><div class="card-concept">Quality Bar</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Definir padrão antes do output</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Evitar resposta genérica</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Instrução: Diamond / Gold / Silver</p></div>
+        </div>
+        <div class="card-q"><p>Disse o nível de qualidade esperado?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">R</div><div class="card-concept">Risco</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Classificar impacto do uso</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Decidir revisão proporcional ao risco</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Checklist de risco por projeto</p></div>
+        </div>
+        <div class="card-q"><p>Este uso é baixo, médio ou alto risco?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">S</div><div class="card-concept">Skills</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Tarefas repetíveis</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Padronizar workflows frequentes</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Custom Skill por workflow</p></div>
+        </div>
+        <div class="card-q"><p>Esta tarefa se repete o bastante para virar skill?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">T</div><div class="card-concept">Teste Piloto</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Prova pequena antes de escala</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Validar método com baixo custo</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Project 'Pilot Test'</p></div>
+        </div>
+        <div class="card-q"><p>Qual é o menor teste funcional possível?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">U</div><div class="card-concept">Uso Responsável</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Transparência e consequência</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Evitar dano, plágio, exposição</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Instrução: 'avise riscos éticos'</p></div>
+        </div>
+        <div class="card-q"><p>Posso explicar como usei IA neste output?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">V</div><div class="card-concept">Verificação</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Checar fonte, lógica e lacunas</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Reduzir erro e retrabalho</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Prompt final de auditoria</p></div>
+        </div>
+        <div class="card-q"><p>O que falta verificar antes de usar?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">W</div><div class="card-concept">Workflow</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Processo recorrente</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Sair de prompts soltos</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Project por fluxo de trabalho</p></div>
+        </div>
+        <div class="card-q"><p>Tenho processo ou só conversas avulsas?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">X</div><div class="card-concept">X-Ray</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Diagnóstico antes da solução</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Mapear dor, fonte, risco e output</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Template de diagnóstico</p></div>
+        </div>
+        <div class="card-q"><p>Qual problema real este uso de IA resolve?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">Y</div><div class="card-concept">Yield</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Retorno por hora</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Medir ganho líquido</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Planilha de tempo/retrabalho</p></div>
+        </div>
+        <div class="card-q"><p>A IA reduziu trabalho ou deslocou para revisão?</p></div>
+      </div>
+
+      <div class="letter-card">
+        <div class="card-header"><div class="card-letter">Z</div><div class="card-concept">Zona de Risco</div></div>
+        <div class="card-body">
+          <div class="card-row"><span class="lbl">Método</span><p>Fronteira de segurança</p></div>
+          <div class="card-row"><span class="lbl">Uso Executivo</span><p>Saber quando parar e escalar</p></div>
+          <div class="card-row"><span class="lbl">Claude Config</span><p>Instrução: 'pare em zona vermelha'</p></div>
+        </div>
+        <div class="card-q"><p>Este output afeta pessoas, dinheiro, reputação ou direito?</p></div>
+      </div>
+
+    </div>
+  </div>
+  <div class="page-number">06</div>
+  <div class="page-label">A-Z da AI Literacy & AI Fluency</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PAGE 7 — CHECKLIST DE AUTOAVALIAÇÃO
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-content" style="padding-top:52px;">
+
+    <div class="section-tag">Autoavaliação</div>
+    <div class="page-title">Checklist de prática operacional</div>
+    <div class="page-subtitle">20 perguntas para medir sua maturidade de uso</div>
+    <div class="divider"></div>
+
+    <p class="checklist-intro">Marque <strong>0</strong> (não faço), <strong>1</strong> (faço às vezes) ou <strong>2</strong> (faço sempre) para cada pergunta. Some os pontos ao final e identifique o seu nível.</p>
+
+    <div class="score-band-row">
+      <div class="score-band basic">
+        <div class="range">0–15 pontos</div>
+        <div class="desc">Básico — uso casual, sem estrutura consistente</div>
+      </div>
+      <div class="score-band inter">
+        <div class="range">16–28 pontos</div>
+        <div class="desc">Intermediário — uso frequente com algumas boas práticas</div>
+      </div>
+      <div class="score-band adv">
+        <div class="range">29–40 pontos</div>
+        <div class="desc">Avançado — uso maduro, verificado e estruturado</div>
+      </div>
+    </div>
+
+    <div class="checklist-cols">
+      <div>
+        <div class="check-item">
+          <span class="check-num">01</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Defino objetivo antes de abrir a IA?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">02</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Informo contexto, público, restrições e formato?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">03</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Digo o nível de qualidade esperado?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">04</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Peço incertezas, riscos e limites?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">05</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Peço fontes quando a resposta depende de fatos?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">06</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Faço pelo menos uma rodada de refinamento?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">07</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Questiono o raciocínio da IA?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">08</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Procuro contexto ausente antes de concluir?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">09</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Verifico fatos antes de publicar ou decidir?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">10</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Classifico risco baixo, médio ou alto?</span>
+        </div>
+      </div>
+      <div>
+        <div class="check-item">
+          <span class="check-num">11</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Sei o que não devo delegar à IA?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">12</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Tenho instruções de perfil bem definidas?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">13</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Uso Projects separados por objetivo?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">14</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Nomeio arquivos de forma recuperável?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">15</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Uso estilos diferentes para tipos de entrega?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">16</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Tenho templates para tarefas recorrentes?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">17</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Registro decisões, hipóteses e evidências?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">18</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Meço retrabalho gerado pela IA?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">19</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Removo dados sensíveis antes de usar exemplos?</span>
+        </div>
+        <div class="check-item">
+          <span class="check-num">20</span>
+          <div class="check-score"><div class="score-circle">0</div><div class="score-circle">1</div><div class="score-circle">2</div></div>
+          <span class="check-text">Sei explicar como usei IA no resultado final?</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px; background:var(--gray-light); padding:12px 16px; border-left:3px solid var(--gray-mid);">
+      <p style="font-family:var(--font-serif); font-size:11.5px; color:var(--gray-mid); line-height:1.5; font-style:italic;">
+        Este checklist mede prática operacional, não inteligência, cargo ou conhecimento técnico. Pontuação baixa não significa incompetência — significa oportunidade de melhoria.
+      </p>
+    </div>
+
+  </div>
+  <div class="page-number">07</div>
+  <div class="page-label">A-Z da AI Literacy & AI Fluency</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PAGE 8 — GUIA DE PERSONALIZAÇÃO DO CLAUDE
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-content" style="padding-top:52px;">
+
+    <div class="section-tag">Guia Operacional</div>
+    <div class="page-title">Personalização do Claude em camadas</div>
+    <div class="page-subtitle">Separe camadas para evitar overengineering</div>
+    <div class="divider"></div>
+
+    <div class="principle-box">
+      <div class="principle-item"><strong>Perfil</strong>Define princípios estáveis para todas as conversas</div>
+      <div class="principle-item"><strong>Project</strong>Guarda contexto por objetivo ou cliente</div>
+      <div class="principle-item"><strong>Style</strong>Define forma e tom da resposta</div>
+      <div class="principle-item"><strong>Knowledge</strong>Organiza documentos e fontes</div>
+      <div class="principle-item"><strong>Skills</strong>Padroniza tarefas repetíveis</div>
+      <div class="principle-item"><strong>Checklist</strong>Controla qualidade antes do uso</div>
+    </div>
+
+    <table class="layer-table">
+      <thead>
+        <tr>
+          <th style="width:13%">Camada</th>
+          <th style="width:28%">Função</th>
+          <th style="width:22%">Boa Prática ✓</th>
+          <th style="width:20%">Erro Comum ✗</th>
+          <th style="width:17%">Exemplo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="layer-name"><span class="layer-badge">01</span>Perfil</div></td>
+          <td class="fn">Definir preferências gerais, métodos, termos e tom para todas as conversas</td>
+          <td class="good">Escrever princípios estáveis; deixar regras específicas para o projeto</td>
+          <td class="bad">Colocar regras específicas demais no perfil</td>
+          <td><span class="ex">Tom executivo, sem hype; peça fontes; evite listas desnecessárias</span></td>
+        </tr>
+        <tr>
+          <td><div class="layer-name"><span class="layer-badge">02</span>Project</div></td>
+          <td class="fn">Armazenar contexto, arquivos e instruções relacionadas a um objetivo ou cliente</td>
+          <td class="good">Um Project por objetivo; nomear arquivos com clareza</td>
+          <td class="bad">Misturar temas diferentes no mesmo Project</td>
+          <td><span class="ex">Project 'Cliente X — Estratégia IA' com contexto e histórico</span></td>
+        </tr>
+        <tr>
+          <td><div class="layer-name"><span class="layer-badge">03</span>Style</div></td>
+          <td class="fn">Ajustar tom e formato de resposta (conciso, técnico, editorial)</td>
+          <td class="good">Criar estilos claros e manter conteúdo no Project</td>
+          <td class="bad">Usar style para trazer contexto ou método</td>
+          <td><span class="ex">Estilo 'Relatório Executivo': conciso, dados primeiro</span></td>
+        </tr>
+        <tr>
+          <td><div class="layer-name"><span class="layer-badge">04</span>Knowledge</div></td>
+          <td class="fn">Carregar documentos, fontes e materiais de referência</td>
+          <td class="good">Nomear arquivos com clareza, versão e data</td>
+          <td class="bad">Nomes genéricos tipo 'documento.pdf'</td>
+          <td><span class="ex">Plano_Estrategia_IA_v2.3_2026-05.pdf</span></td>
+        </tr>
+        <tr>
+          <td><div class="layer-name"><span class="layer-badge">05</span>RAG</div></td>
+          <td class="fn">Recuperação de conhecimento em projetos grandes</td>
+          <td class="good">Citar documentos específicos nas perguntas</td>
+          <td class="bad">Esperar que tudo seja carregado automaticamente</td>
+          <td><span class="ex">Com base no 'Relatório Q4 2025', qual foi o ROI do piloto?</span></td>
+        </tr>
+        <tr>
+          <td><div class="layer-name"><span class="layer-badge">06</span>Skills</div></td>
+          <td class="fn">Criar skills para tarefas repetitivas e bem definidas</td>
+          <td class="good">Limitar skills a ações recorrentes e padronizadas</td>
+          <td class="bad">Criar skills para tudo, inclusive tarefas únicas</td>
+          <td><span class="ex">Skill 'Dashboard Semanal': KPIs, tabela, desvios</span></td>
+        </tr>
+        <tr>
+          <td><div class="layer-name"><span class="layer-badge">07</span>Checklist</div></td>
+          <td class="fn">Revisar outputs antes de usar: riscos, privacidade, qualidade</td>
+          <td class="good">Rodar auditoria final antes de publicar ou decidir</td>
+          <td class="bad">Publicar output polido sem checar evidência e risco</td>
+          <td><span class="ex">Tem fonte? Tem dado sensível? Revisão humana foi feita?</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="page-number">08</div>
+  <div class="page-label">A-Z da AI Literacy & AI Fluency</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PAGE 9 — PLANO 30 DIAS
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-content" style="padding-top:52px;">
+
+    <div class="section-tag">Implementação Prática</div>
+    <div class="page-title">Aplicação em 30 dias</div>
+    <div class="page-subtitle">4 semanas para transformar conhecimento em hábito operacional</div>
+    <div class="divider"></div>
+
+    <p style="font-family:var(--font-serif); font-size:13px; color:var(--gray-text); line-height:1.6; margin-bottom:16px;">
+      Este plano guia a implementação gradual de AI Literacy e AI Fluency no seu trabalho. Cada semana tem objetivo, ações concretas, entrega e métricas simples.
+    </p>
+
+    <div class="week-grid">
+
+      <div class="week-card">
+        <div class="week-header">
+          <div class="week-label">Semana 1</div>
+          <div class="week-title">Diagnóstico</div>
+        </div>
+        <div class="week-body">
+          <div class="week-deliverable">→ Diagnóstico documentado com lacunas</div>
+          <div class="week-objective">Mapear uso atual de IA e identificar onde estão as lacunas reais</div>
+          <ul class="week-actions">
+            <li>Fazer checklist de autoavaliação (pg. 07)</li>
+            <li>Listar 5 tarefas onde usa IA mais frequentemente</li>
+            <li>Identificar maior fonte de retrabalho ou erro</li>
+          </ul>
+          <div class="week-metrics">
+            <span class="metric-tag">Pontuação 0–40</span>
+            <span class="metric-tag">Tarefas mapeadas</span>
+            <span class="metric-tag">Principal dor</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-card">
+        <div class="week-header">
+          <div class="week-label">Semana 2</div>
+          <div class="week-title">Configuração</div>
+        </div>
+        <div class="week-body">
+          <div class="week-deliverable">→ Conta Claude personalizada e organizada</div>
+          <div class="week-objective">Estruturar conta Claude em camadas conforme o guia</div>
+          <ul class="week-actions">
+            <li>Definir instruções de perfil (tom, método, preferências)</li>
+            <li>Criar 2–3 Projects separados por tema ou cliente</li>
+            <li>Configurar 1–2 estilos (executivo, técnico)</li>
+            <li>Upload de documentos essenciais com nomes claros</li>
+          </ul>
+          <div class="week-metrics">
+            <span class="metric-tag">N.º de Projects</span>
+            <span class="metric-tag">Estilos criados</span>
+            <span class="metric-tag">Docs organizados</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-card">
+        <div class="week-header">
+          <div class="week-label">Semana 3</div>
+          <div class="week-title">Uso Guiado</div>
+        </div>
+        <div class="week-body">
+          <div class="week-deliverable">→ 3 outputs verificados e documentados</div>
+          <div class="week-objective">Aplicar framework 5 etapas em tarefas reais do trabalho</div>
+          <ul class="week-actions">
+            <li>Escolher 3 tarefas recorrentes do seu contexto</li>
+            <li>Para cada: objetivo → contexto → iterar → verificar → registrar</li>
+            <li>Pedir incertezas, limites e fontes explicitamente</li>
+            <li>Fazer ao menos 1 rodada de refinamento por tarefa</li>
+          </ul>
+          <div class="week-metrics">
+            <span class="metric-tag">Iterações / tarefa</span>
+            <span class="metric-tag">Fontes citadas</span>
+            <span class="metric-tag">Tempo vs retrabalho</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="week-card">
+        <div class="week-header">
+          <div class="week-label">Semana 4</div>
+          <div class="week-title">Verificação</div>
+        </div>
+        <div class="week-body">
+          <div class="week-deliverable">→ Relatório de melhoria com próximos passos</div>
+          <div class="week-objective">Medir impacto real e ajustar processo com base em dados</div>
+          <ul class="week-actions">
+            <li>Comparar tempo/qualidade antes vs. depois</li>
+            <li>Identificar o que funcionou e o que não funcionou</li>
+            <li>Refazer o checklist de autoavaliação (pg. 07)</li>
+            <li>Ajustar perfil, projetos ou estilos conforme necessário</li>
+          </ul>
+          <div class="week-metrics">
+            <span class="metric-tag">Δ pontuação checklist</span>
+            <span class="metric-tag">% retrabalho reduzido</span>
+            <span class="metric-tag">Tarefas estruturadas</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="page-number">09</div>
+  <div class="page-label">A-Z da AI Literacy & AI Fluency</div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     PAGE 10 — PROMPT DE AUDITORIA + CONCLUSÃO
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="page-content" style="padding-top:52px;">
+
+    <div class="section-tag">Conclusão & Ferramentas</div>
+    <div class="page-title">Prompt de auditoria & Conclusão</div>
+    <div class="divider"></div>
+
+    <div class="two-col">
+      <!-- Left: Prompt -->
+      <div>
+        <div class="blue-rule"></div>
+        <div style="font-family:var(--font-sans); font-size:12px; font-weight:600; color:var(--navy); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.05em;">
+          Prompt Copiável — Auditoria de Outputs
+        </div>
+        <p style="font-family:var(--font-serif); font-size:12px; color:var(--gray-text); line-height:1.55; margin-bottom:12px;">
+          Copie e use sempre que precisar auditar uma resposta de IA antes de publicar, decidir ou compartilhar.
+        </p>
+        <div class="prompt-box">
+          <div class="prompt-label">Prompt Template</div>
+          <div class="prompt-text">Quero aplicar AI Literacy
+e AI Fluency nesta tarefa.
+
+Tarefa: [descreva a tarefa]
+
+Contexto: [público, objetivo,
+restrições, dados disponíveis]
+
+Antes de responder:
+
+1. Separe o que está claro do
+   que está incerto.
+
+2. Diga quais riscos existem:
+   erro, alucinação, viés,
+   retrabalho ou dado sensível.
+
+3. Explique o que pode ser
+   delegado à IA e o que exige
+   julgamento humano.
+
+4. Produza resposta com fontes,
+   limites e próximos passos.
+
+5. Ao final, dê checklist de
+   verificação antes de usar.</div>
+        </div>
+      </div>
+
+      <!-- Right: Conclusion + Refs -->
+      <div>
+        <div class="blue-rule"></div>
+        <div style="font-family:var(--font-sans); font-size:12px; font-weight:600; color:var(--navy); margin-bottom:12px; text-transform:uppercase; letter-spacing:0.05em;">
+          Conclusão
+        </div>
+        <p class="conclusion-text">O AI Act obriga organizações a investirem em <strong>letramento proporcional ao contexto e risco</strong>. O AI Fluency Framework mostra que iterar, questionar e validar distingue uso maduro de uso básico.</p>
+        <p class="conclusion-text">A personalização bem-feita do Claude transforma uma ferramenta genérica num <strong>sistema alinhado ao seu trabalho real</strong>.</p>
+        <p class="conclusion-text">Comece pela agenda de aprendizado. Configure seus Projects. Simplifique estilos. Construa skills apenas para fluxos recorrentes. Aplique o checklist.</p>
+
+        <div class="cta-bar">
+          <p><strong>A fluência em IA se constrói com prática crítica, aprendizagem estruturada e personalização inteligente.</strong> O objetivo não é automatizar o julgamento — é acelerar o caminho até decisões informadas, confiáveis e responsáveis.</p>
+        </div>
+
+        <div class="refs-row">
+          <div class="ref-item">
+            <div class="ref-type">Regulação</div>
+            <div class="ref-title">AI Act — Artigo 4 AI Literacy</div>
+            <div class="ref-url">eur-lex.europa.eu<br/>digital-strategy.ec.europa.eu</div>
+          </div>
+          <div class="ref-item">
+            <div class="ref-type">Pesquisa</div>
+            <div class="ref-title">AI Fluency Index + Framework 4D</div>
+            <div class="ref-url">anthropic.com/research<br/>anthropic.com/learn</div>
+          </div>
+          <div class="ref-item">
+            <div class="ref-type">Documentação</div>
+            <div class="ref-title">Claude Docs — Personalização</div>
+            <div class="ref-url">docs.anthropic.com/pt<br/>anthropic.com/academy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="page-number">10</div>
+  <div class="page-label">© 2026 · A-Z da AI Literacy & AI Fluency</div>
+</div>
+
+</body>
+</html>
